@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../contexts/Authcontext";
+import { Link } from "react-router-dom";
 
 const Home = () =>{ 
     const email = useRef();
@@ -33,6 +34,7 @@ const Home = () =>{
                 <button type="submit" onClick={handleSubmit}>Sign up</button>
             </div>
         </form>
+        <div>Already have an account? <Link to='/login'>login</Link></div>
         <div>{error}</div>
         <div>{currentUser && currentUser.email}</div>
 
