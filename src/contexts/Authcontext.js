@@ -18,9 +18,8 @@ export const Authprovider  = ({children}) => {
           return db.collection('users').doc(cred.user.uid).set({
             fullname: fullname,
             created: new Date()
-
           })
-        })
+        }).then(()=>{})
     }
 
     const login = (email, password) => {
@@ -46,7 +45,8 @@ export const Authprovider  = ({children}) => {
         currentUser,
         signup,
         login,
-        logout
+        logout,
+
     }
 
   return (

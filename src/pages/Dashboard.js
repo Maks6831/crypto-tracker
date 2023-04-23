@@ -1,13 +1,18 @@
 import React from 'react'
 import { useAuth } from '../contexts/Authcontext'
-import useNavigat 
+import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
   const { logout } = useAuth();
+  const history = useNavigate();
+  const redirect = (path) => {
+    history(path)
+  }
 
   const handleLogOut = async (e) => {
     e.preventDefault();
     await logout();
+    await redirect('/');
 
   }
   return (

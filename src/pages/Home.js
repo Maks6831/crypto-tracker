@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useAuth } from "../contexts/Authcontext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Home = () =>{ 
     const email = useRef();
@@ -9,6 +10,11 @@ const Home = () =>{
     const passconf = useRef();
     const { signup, currentUser } = useAuth();
     const [error, setError] = useState('')
+    const history = useNavigate();
+
+    const redirect = (path) => {
+        history(path);
+    }
 
     const passwordCheck = (a, b) => {
         return a === b 
@@ -18,7 +24,8 @@ const Home = () =>{
         e.preventDefault()
         if(passwordCheck(password.current.value, passconf.current.value)){
             try {
-                 await signup(email.current.value, password.current.value)
+                 await signup(email.current.value, password.current.value, fullname.current.value)
+                 await redirect('/Dashboard');
             } catch {
                 setError('We could not create an account')
             }

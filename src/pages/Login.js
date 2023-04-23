@@ -23,7 +23,6 @@ export const Login = () => {
 
     const handleLogOut = async (e) =>{
         e.preventDefault();
-        setError('');
         try {
             await logout()
             redirect("/");  
@@ -37,15 +36,15 @@ export const Login = () => {
         e.preventDefault()
         try {
             await login(email.current.value, password.current.value)
-        } catch {
-            setError("passwords do not match");
+        } catch (err){
+            setError("incorrect password or no user record" + err);
         }
     }
   return (
     <div>
         <form>
             <div>
-                <label for="email">Enter you email</label>
+                <label for="email">Enter your email</label>
                 <input type="text" name="email" ref={email}/>
             </div>
             <div>
