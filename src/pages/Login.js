@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRef, useState } from 'react';
 import { useAuth } from "../contexts/Authcontext";
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,15 +6,20 @@ import { Link, useNavigate } from 'react-router-dom';
 export const Login = () => {
     const email = useRef();
     const password = useRef();
-    const passconf = useRef();
     const { login, currentUser, logout } = useAuth();
     const [error, setError] = useState('')
     const history = useNavigate();
     console.log(currentUser);
-
     const redirect = path => {
         history(path);
       }
+    useEffect(()=>{
+       
+        currentUser && redirect('/Dashboard') 
+    },[currentUser])
+    
+
+    
 
     const handleLogOut = async (e) =>{
         e.preventDefault();
@@ -28,11 +33,13 @@ export const Login = () => {
         }
     }
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-        
-        password.current.value ? login(email.current.value, password.current.value): setError("passwords do not match");
-        redirect("/Dashboard");
+        try {
+            await login(email.current.value, password.current.value)
+        } catch {
+            setError("passwords do not match");
+        }
     }
   return (
     <div>

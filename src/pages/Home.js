@@ -5,21 +5,39 @@ import { Link } from "react-router-dom";
 const Home = () =>{ 
     const email = useRef();
     const password = useRef();
+    const fullname = useRef();
     const passconf = useRef();
     const { signup, currentUser } = useAuth();
     const [error, setError] = useState('')
 
-    const handleSubmit = (e) => {
+    const passwordCheck = (a, b) => {
+        return a === b 
+    }
+
+    const handleSubmit =  async (e) => {
         e.preventDefault()
-        password.current.value === passconf.current.value ? signup(email.current.value, password.current.value): setError("passwords do not match");
+        if(passwordCheck(password.current.value, passconf.current.value)){
+            try {
+                 await signup(email.current.value, password.current.value)
+            } catch {
+                setError('We could not create an account')
+            }
+
+        } else {
+            setError("passwords do not match");
+        }
 
     }
     return (
         <div>
         <h1>Sign up</h1>
         <form>
+        <div>
+                <label for="fullname">Enter your full name</label>
+                <input type="text" name="fullname" ref={fullname}/>
+            </div>
             <div>
-                <label for="email">Enter you email</label>
+                <label for="email">Enter your email</label>
                 <input type="text" name="email" ref={email}/>
             </div>
             <div>
