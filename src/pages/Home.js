@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 const Home = () =>{ 
     const email = useRef();
     const password = useRef();
-    const fullname = useRef();
+    const lastname = useRef();
+    const firstname = useRef();
     const passconf = useRef();
     const { signup, currentUser } = useAuth();
     const [error, setError] = useState('')
@@ -16,6 +17,8 @@ const Home = () =>{
         history(path);
     }
 
+    currentUser && redirect('/Dashboard');
+
     const passwordCheck = (a, b) => {
         return a === b 
     }
@@ -24,8 +27,8 @@ const Home = () =>{
         e.preventDefault()
         if(passwordCheck(password.current.value, passconf.current.value)){
             try {
-                 await signup(email.current.value, password.current.value, fullname.current.value)
-                 await redirect('/Dashboard');
+                 await signup(email.current.value, password.current.value, firstname.current.value,lastname.current.value)
+                 
             } catch {
                 setError('We could not create an account')
             }
@@ -40,8 +43,12 @@ const Home = () =>{
         <h1>Sign up</h1>
         <form>
         <div>
-                <label for="fullname">Enter your full name</label>
-                <input type="text" name="fullname" ref={fullname}/>
+                <label for="firstname">Enter your first name</label>
+                <input type="text" name="firstname" ref={firstname}/>
+            </div>
+        <div>
+                <label for="lastname">Enter your last name</label>
+                <input type="text" name="lastname" ref={lastname}/>
             </div>
             <div>
                 <label for="email">Enter your email</label>

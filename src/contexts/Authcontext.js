@@ -13,10 +13,11 @@ export const useAuth = () => {
 export const Authprovider  = ({children}) => {
     const [currentUser, setCurrentUser] = useState();
 
-    const signup = (email, password, fullname) =>{
+    const signup = (email, password, firstname, lastname) =>{
         auth.createUserWithEmailAndPassword(email, password).then(cred => {
           return db.collection('users').doc(cred.user.uid).set({
-            fullname: fullname,
+            firstname: firstname,
+            lastname: lastname,
             created: new Date()
           })
         }).then(()=>{})
