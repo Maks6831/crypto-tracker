@@ -1,0 +1,34 @@
+.trending-div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.trending-div h2 {
+    padding: 10px;
+    margin: 10px;
+}
+
+.trending-coins {
+    display: flex;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    justify-content: center;
+    min-height: 30px;
+    margin: 20px;
+}
+
+.search {
+    height: 100%;
+}
+
+.form-input {
+    height: 100%;
+}
