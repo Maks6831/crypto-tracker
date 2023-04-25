@@ -9,8 +9,10 @@ import { Searchitem } from '../components/Searchitem';
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
   const { logout, currentUser } = useAuth();
+  const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
+  const [limit, setLimit] = useState(5);
   const [data, setData] = useState([]);
   const history = useNavigate();
   const redirect = (path) => {
@@ -25,6 +27,14 @@ export const Dashboard = () => {
 
 
   },[])
+  useEffect(()=>{
+    fetch("https://api.coingecko.com/api/v3/search/trending").then(res => res.json()).then(data => setTrending(data.coins));
+
+
+  },[])
+ 
+
+
 
  
   const queryChange = (e)=>{
@@ -35,6 +45,15 @@ export const Dashboard = () => {
   const handleQuery = (e) =>{
     e.preventDefault()
     fetch('https://api.coingecko.com/api/v3/search?query=' + query).then(res => res.json()).then(data=> setData(data.coins))
+    data !== [] ? console.log(data) : console.log('empty');
+    setToggle(true)
+  }
+
+  const showMore = () => {
+    setLimit(limit + 4);
+    if(limit >= data.length){
+      setToggle(false)
+    }
   }
 
 
@@ -72,11 +91,16 @@ export const Dashboard = () => {
       </form>
     </div>
     <div>
-      {data && data.map((item) => (
+      {data && data.slice(0, limit).map((item) => (
         <Searchitem
         name={item.name}
+        img={item.large}
+        id={item.id}
          />
-      ))}
+      ))
+        }
+        {toggle ? <button onClick={showMore}>Show more</button> : <></>}
+      
       
     </div>
     
