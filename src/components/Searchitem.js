@@ -10,7 +10,7 @@ import firebase from 'firebase/compat/app';
 
 export const Searchitem = (props) => {
   const [dropDown, setDropDown] = useState(false);
-  const { currentUser} = useAuth();
+  const { currentUser, setUserData } = useAuth();
   const [coinInfo, setCoinInfo] = useState(null);
     
     const moreInfo = async () =>{
@@ -25,8 +25,6 @@ export const Searchitem = (props) => {
       db.collection('users').doc(currentUser._delegate.uid).update({
         coins: firebase.firestore.FieldValue.arrayUnion(props.id)
       });
-      
-  
     }
   
 
