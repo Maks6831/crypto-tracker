@@ -23,6 +23,7 @@ function App() {
          : 
          <Sidebar>
           <Routes>
+              <Route path='/login' element={<Login />} />
               <Route path='/dashboard' element={<Dashboard />} />
               <Route path='/mycoins' element={<Mycoins/>} />
             </Routes>

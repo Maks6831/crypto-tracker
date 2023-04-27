@@ -15,7 +15,7 @@ export const Login = () => {
       }
     useEffect(()=>{
        
-        currentUser && redirect('/Dashboard') 
+    currentUser ? redirect('/dashboard') : console.log('not logged in');
     },[currentUser])
     
 
@@ -35,7 +35,8 @@ export const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            await login(email.current.value, password.current.value)
+            await login(email.current.value, password.current.value) &&
+            redirect('/dashboard')
         } catch (err){
             setError("incorrect password or no user record" + err);
         }

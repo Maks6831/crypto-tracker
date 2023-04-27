@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaHome, FaCoins, FaBars } from 'react-icons/fa';
+import { FaHome, FaCoins, FaBars, FaSignOutAlt } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import '../styles/Sidebar.css';
+import { useAuth } from '../contexts/Authcontext';
 
 const routes = [
   {
@@ -19,8 +20,15 @@ const routes = [
 
 export const Sidebar = ({children}) => {
   const [ isOpen, setIsOpen] = useState(false)
+  const { logout } = useAuth();
+
 
   const toggle = () => setIsOpen(!isOpen);
+  const handleLogOut = async (e) => {
+    e.preventDefault();
+    await logout();
+
+  }
 
   return (
     <div className='container'>
@@ -40,6 +48,12 @@ export const Sidebar = ({children}) => {
                 {isOpen && <div className='link_text'>{route.name}</div>}
               </NavLink>
             ))}
+            <NavLink to='/' key='Sign out' className='links' onClick={handleLogOut}>
+              <div className='icon'>
+                <FaSignOutAlt/>
+              </div>
+              {isOpen && <div className='link_text'>Sign out </div>}
+            </NavLink>
           </section>
         </motion.div>
         <main>
