@@ -32,3 +32,7 @@
 .form-input {
     height: 100%;
 }
+
+.dashboard-container {
+    padding-left: 50px;
+}

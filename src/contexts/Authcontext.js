@@ -12,13 +12,15 @@ export const useAuth = () => {
 
 export const Authprovider  = ({children}) => {
     const [currentUser, setCurrentUser] = useState();
+    const [userData, setUserData] = useState();
 
     const signup = (email, password, firstname, lastname) =>{
         auth.createUserWithEmailAndPassword(email, password).then(cred => {
           return db.collection('users').doc(cred.user.uid).set({
             firstname: firstname,
             lastname: lastname,
-            created: new Date()
+            created: new Date(),
+            coins: []
           })
         }).then(()=>{})
     }
@@ -47,6 +49,8 @@ export const Authprovider  = ({children}) => {
         signup,
         login,
         logout,
+        userData,
+        setUserData
 
     }
 

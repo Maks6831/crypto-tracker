@@ -8,7 +8,7 @@ import { Searchitem } from '../components/Searchitem';
 
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
-  const { logout, currentUser } = useAuth();
+  const { logout, currentUser, setUserData } = useAuth();
   const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
@@ -20,6 +20,7 @@ export const Dashboard = () => {
   }
  currentUser && db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
     setDisplayName(doc.data().firstname);
+    setUserData(doc.data());
   })
 
   useEffect(()=>{
@@ -32,10 +33,6 @@ export const Dashboard = () => {
 
 
   },[])
- 
-
-
-
  
   const queryChange = (e)=>{
     setQuery(e.target.value)
@@ -65,7 +62,7 @@ export const Dashboard = () => {
 
   }
   return (
-    <div>
+    <div className='dashboard-container'>
       <h1>Welcome {displayName}</h1>
     <div>Dashboard</div>
     

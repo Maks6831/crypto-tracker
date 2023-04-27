@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5; 
+    
+  }
+  
+  .sidebar {
+    background-color: #212529; 
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 60px; 
+    transition: width 0.2s ease-in-out; 
+  }
+  
+  .sidebar:hover {
+    width: 250px; 
+  }
+  
+  .sidebar h1 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  
+  .routes {
+    margin-top: 50px;
+    padding-top: 10px;
+  }
+  
+  .links {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .links:hover {
+    background-color: #343a40; /* change this to your preferred link hover color */
+  }
+  
+
+  
+  .link_text {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .main {
+    flex: 1;
+    padding: 20px 20px 20px 65px;
+  }
+
+  .title-section-sidebar {
+    display: flex;
+
+  }
+
+  .hamburger {
+    margin: 10px;
+  }
+
+  .hamburger-small {
+    margin: 0px;
+  }
