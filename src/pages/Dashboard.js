@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, PureComponent } from 'react'
 import { useAuth } from '../contexts/Authcontext'
 import { useNavigate } from 'react-router-dom';
 import { db } from '../Firebase';
 import { Trendcard } from '../components/Trendcard';
 import '../styles/Dashboard.css'
 import { Searchitem } from '../components/Searchitem';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
-  const { logout, currentUser, setUserData } = useAuth();
+  const { logout, currentUser, setUserData, moreInfoData } = useAuth();
   const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
@@ -18,18 +20,14 @@ export const Dashboard = () => {
   const redirect = (path) => {
     history(path)
   }
- currentUser && db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
-    setDisplayName(doc.data().firstname);
-    setUserData(doc.data());
-  })
+
 
   useEffect(()=>{
     fetch("https://api.coingecko.com/api/v3/search/trending").then(res => res.json()).then(data => setTrending(data.coins));
-
-
-  },[])
-  useEffect(()=>{
-    fetch("https://api.coingecko.com/api/v3/search/trending").then(res => res.json()).then(data => setTrending(data.coins));
+    currentUser && db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
+      setDisplayName(doc.data().firstname);
+      setUserData(doc.data());
+    })
 
 
   },[])
@@ -97,8 +95,34 @@ export const Dashboard = () => {
       ))
         }
         {toggle ? <button onClick={showMore}>Show more</button> : <></>}
+    </div>
+    <div className='more-info'>
       
-      
+      <h1>Bitcoin</h1>
+      <p>description: this is where you add description</p>
+      price: price
+      <div className='chart-container'>
+      {moreInfoData && 
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          width={500}
+          height={500}
+          data={moreInfoData}
+          margin={{
+            top: 10,
+            right: 30,
+            left: 0,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="time" />
+          <YAxis />
+          <Tooltip />
+          <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
+        </AreaChart>
+      </ResponsiveContainer>}
+      </div>
     </div>
     
     

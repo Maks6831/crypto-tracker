@@ -36,3 +36,14 @@
 .dashboard-container {
     padding-left: 50px;
 }
+
+.more-info {
+    padding: 10px;
+    border: 1px solid black;
+    min-height: 100px;
+}
+
+.chart-container { 
+    height: 200px;
+    width: 600px;
+}
