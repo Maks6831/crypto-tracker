@@ -41,9 +41,55 @@
     padding: 10px;
     border: 1px solid black;
     min-height: 100px;
+    margin: 20px;
+    max-width: 100%;
+}
+
+.more-info-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+    padding: 20px;
+}
+
+.more-info-image {
+    max-width: 150px;
+}
+
+.more-info-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+
 }
 
 .chart-container { 
     height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 600px;
+    margin: 20px;
 }
+
+.description-container {
+    max-width: 50%;
+    overflow-y: auto;
+    max-height: 200px; 
+    max-width: 70%;
+}
+
+@media screen and (min-width: 768px) {
+    .recharts-yAxis .recharts-cartesian-axis-tick:last-child tspan {
+      transform: translate(40px, -20px);
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    .recharts-yAxis .recharts-cartesian-axis-tick:last-child tspan {
+      transform: translate(20px, -20px);
+    }
+  }

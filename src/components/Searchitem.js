@@ -11,8 +11,8 @@ import { m } from 'framer-motion';
 
 export const Searchitem = (props) => {
   const [dropDown, setDropDown] = useState(false);
-  const { currentUser, setUserData, setMoreInfoData } = useAuth();
-  const [coinInfo, setCoinInfo] = useState(null);
+  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, detailedInfo } = useAuth();
+  
   
     
     const introInfo = async () =>{
@@ -35,11 +35,14 @@ export const Searchitem = (props) => {
        setMoreInfoData(data.prices.map(pdata => {
         return {
           time: new Date(pdata[0]).toLocaleDateString('en-GB'),
-          price: pdata[1]
+          price: pdata[1].toFixed(2)
         }
        }))
       
        props.moreInfoRef.current.scrollIntoView({ behavior: 'smooth' });
+       setDetailedInfo(coinInfo);
+       console.log(detailedInfo);
+
         })
 
       
@@ -56,7 +59,7 @@ export const Searchitem = (props) => {
         <img className='image' src={props.img} alt='thumb'/>
     </div>
     <div>
-      {coinInfo && coinInfo.description && <div><Coincard
+      {coinInfo?.name === props.name && coinInfo.description && <div><Coincard
       name={coinInfo.name}
       description={coinInfo.description.en}
 

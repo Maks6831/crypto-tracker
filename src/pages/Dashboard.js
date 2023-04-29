@@ -1,4 +1,4 @@
-import React, { useEffect, useState, PureComponent, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useAuth } from '../contexts/Authcontext'
 import { useNavigate } from 'react-router-dom';
 import { db } from '../Firebase';
@@ -10,7 +10,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
-  const { logout, currentUser, setUserData, moreInfoData } = useAuth();
+  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo } = useAuth();
   const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
@@ -101,11 +101,17 @@ export const Dashboard = () => {
     </div>
     <div ref={moreInfoRef} className='more-info'>
       
-      <h1>Bitcoin</h1>
-      <p>description: this is where you add description</p>
-      price: price
-      <div className='chart-container'>
-      {moreInfoData && 
+      
+      {moreInfoData && <div>
+        <div className='more-info-title'>
+        <h1>{detailedInfo.name}</h1>
+        <img src={detailedInfo.image.large} alt='coinImage' className='more-info-image'/>
+        
+        </div>
+        <div className='more-info-container'>
+          <div className='description-container'dangerouslySetInnerHTML={{ __html: detailedInfo.description.en === '' ?`There is currently no description for ${detailedInfo.name} at the moment` : detailedInfo.description.en}}>
+          </div> 
+        <div className='chart-container'>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           width={500}
@@ -114,18 +120,22 @@ export const Dashboard = () => {
           margin={{
             top: 10,
             right: 30,
-            left: 0,
-            bottom: 0,
+            left: 10,
+            bottom: 10,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" />
-          <YAxis />
+          <XAxis dataKey="time" label={{ value: 'Date', position: 'insideBottom', offset: -10 }} />
+          <YAxis label={{ value: 'Price', angle: -90, position: 'insideLeft', offset: -5}}/>
           <Tooltip />
           <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
-      </ResponsiveContainer>}
+      </ResponsiveContainer>
       </div>
+      <h3>Historical market data for the last year</h3>
+      </div>
+      </div>}
+      
     </div>
     
     
