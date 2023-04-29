@@ -16,6 +16,7 @@ export const Authprovider  = ({children}) => {
     const [moreInfoData, setMoreInfoData] = useState();
     const [coinInfo, setCoinInfo] = useState(null);
     const [detailedInfo, setDetailedInfo] = useState();
+    const [graphLimit, setGraphLimit] = useState(null);
 
     const signup = (email, password, firstname, lastname) =>{
         auth.createUserWithEmailAndPassword(email, password).then(cred => {
@@ -59,7 +60,9 @@ export const Authprovider  = ({children}) => {
         coinInfo,
         setCoinInfo,
         detailedInfo,
-        setDetailedInfo
+        setDetailedInfo,
+        graphLimit,
+        setGraphLimit
     }
 
   return (

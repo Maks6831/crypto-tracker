@@ -10,7 +10,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
-  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo } = useAuth();
+  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo, graphLimit } = useAuth();
   const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
@@ -125,8 +125,9 @@ export const Dashboard = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" label={{ value: 'Date', position: 'insideBottom', offset: -10 }} />
-          <YAxis label={{ value: 'Price', angle: -90, position: 'insideLeft', offset: -5}}/>
+          <XAxis dataKey="time" label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
+          <YAxis label={{ value: 'Price', angle: -90, position: 'insideLeft', offset: -5}}
+          domain={[0, graphLimit]}/>
           <Tooltip />
           <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>

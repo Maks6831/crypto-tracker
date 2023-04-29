@@ -11,7 +11,7 @@ import { m } from 'framer-motion';
 
 export const Searchitem = (props) => {
   const [dropDown, setDropDown] = useState(false);
-  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, detailedInfo } = useAuth();
+  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, setGraphLimit } = useAuth();
   
   
     
@@ -31,6 +31,10 @@ export const Searchitem = (props) => {
 
     const moreInfo = async () => {
       await fetch('https://api.coingecko.com/api/v3/coins/' + props.id + '/market_chart?vs_currency=gbp&days=366').then(res => res.json()).then(data => {
+        const maxPrice = Math.max(...data.prices.map(point => point[1]).flat());
+        setGraphLimit(Math.ceil(maxPrice) * 1.2);
+        console.log(maxPrice);
+        
 
        setMoreInfoData(data.prices.map(pdata => {
         return {
@@ -41,7 +45,7 @@ export const Searchitem = (props) => {
       
        props.moreInfoRef.current.scrollIntoView({ behavior: 'smooth' });
        setDetailedInfo(coinInfo);
-       console.log(detailedInfo);
+      
 
         })
 
