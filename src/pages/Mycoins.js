@@ -8,15 +8,12 @@ export const Mycoins = () => {
   const { currentUser } = useAuth();
 
   useEffect(()=>{
-    db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
-      setMyCoins(doc.data().coins)
-      
-    })
+   // db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
+   //   setMyCoins(doc.data().coins)
+   //   
+   // })
   },[])
-
-  const myCoinsCheck = () => {
-    console.log(myCoins);
-  }
+ 
   return (
     <div className='mycoins-container'>
       <h1>My Coins</h1>

@@ -25,10 +25,10 @@ export const Dashboard = () => {
 
   useEffect(()=>{
     fetch("https://api.coingecko.com/api/v3/search/trending").then(res => res.json()).then(data => setTrending(data.coins));
-    currentUser && db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
-      setDisplayName(doc.data().firstname);
-      setUserData(doc.data());
-    })
+    //currentUser && db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
+    //  setDisplayName(doc.data().firstname);
+    //  setUserData(doc.data());
+    //})
 
 
   },[])

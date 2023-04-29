@@ -24,17 +24,17 @@ export const Searchitem = (props) => {
         
     }
     const saveCoin = () => {
-      db.collection('users').doc(currentUser._delegate.uid).update({
-        coins: firebase.firestore.FieldValue.arrayUnion(props.id)
-      });
+   //   db.collection('users').doc(currentUser._delegate.uid).update({
+   //     coins: firebase.firestore.FieldValue.arrayUnion(props.id)
+   //   });
     }
 
     const moreInfo = async () => {
-      await fetch('https://api.coingecko.com/api/v3/coins/' + props.id + '/market_chart?vs_currency=gbp&days=7').then(res => res.json()).then(data => {
+      await fetch('https://api.coingecko.com/api/v3/coins/' + props.id + '/market_chart?vs_currency=gbp&days=366').then(res => res.json()).then(data => {
 
        setMoreInfoData(data.prices.map(pdata => {
         return {
-          time: pdata[0],
+          time: new Date(pdata[0]).toLocaleDateString('en-GB'),
           price: pdata[1]
         }
        }))
