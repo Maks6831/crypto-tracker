@@ -13,6 +13,7 @@ export const Searchitem = (props) => {
   const [dropDown, setDropDown] = useState(false);
   const { currentUser, setUserData, setMoreInfoData } = useAuth();
   const [coinInfo, setCoinInfo] = useState(null);
+  
     
     const introInfo = async () =>{
         await fetch("https://api.coingecko.com/api/v3/coins/" + props.id).then(res => res.json()).then(data => {
@@ -38,7 +39,7 @@ export const Searchitem = (props) => {
         }
        }))
       
-
+       props.moreInfoRef.current.scrollIntoView({ behavior: 'smooth' });
         })
 
       

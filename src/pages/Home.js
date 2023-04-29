@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contexts/Authcontext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +13,18 @@ const Home = () =>{
     const [error, setError] = useState('')
     const history = useNavigate();
 
+
+
     const redirect = (path) => {
         history(path);
     }
 
-    currentUser && redirect('/Dashboard');
+    useEffect(()=>{
+     currentUser && redirect('/dashboard');
+
+    },[])
+
+    
 
     const passwordCheck = (a, b) => {
         return a === b 

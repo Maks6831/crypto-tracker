@@ -1,4 +1,4 @@
-import React, { useEffect, useState, PureComponent } from 'react'
+import React, { useEffect, useState, PureComponent, useRef } from 'react'
 import { useAuth } from '../contexts/Authcontext'
 import { useNavigate } from 'react-router-dom';
 import { db } from '../Firebase';
@@ -16,6 +16,7 @@ export const Dashboard = () => {
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState(5);
   const [data, setData] = useState([]);
+  const moreInfoRef = useRef(null);
   const history = useNavigate();
   const redirect = (path) => {
     history(path)
@@ -59,6 +60,7 @@ export const Dashboard = () => {
     await redirect('/');
 
   }
+  
   return (
     <div className='dashboard-container'>
       <h1>Welcome {displayName}</h1>
@@ -91,12 +93,13 @@ export const Dashboard = () => {
         name={item.name}
         img={item.large}
         id={item.id}
+        moreInfoRef={moreInfoRef}
          />
       ))
         }
         {toggle ? <button onClick={showMore}>Show more</button> : <></>}
     </div>
-    <div className='more-info'>
+    <div ref={moreInfoRef} className='more-info'>
       
       <h1>Bitcoin</h1>
       <p>description: this is where you add description</p>
