@@ -10,7 +10,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
-  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo, graphLimit } = useAuth();
+  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo, graphLimit, saveCoin } = useAuth();
   const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
@@ -88,6 +88,9 @@ export const Dashboard = () => {
       </form>
     </div>
     <div>
+      <div className='search-container'>
+
+      
       {data && data.slice(0, limit).map((item) => (
         <Searchitem
         name={item.name}
@@ -99,18 +102,25 @@ export const Dashboard = () => {
         }
         {toggle ? <button onClick={showMore}>Show more</button> : <></>}
     </div>
+    </div>
     <div ref={moreInfoRef} className='more-info'>
       
       
       {moreInfoData && <div>
+        <div className='button div'>
+            <button onClick={saveCoin(detailedInfo.id)}>Save coin!</button>
+          </div>
         <div className='more-info-title'>
         <h1>{detailedInfo.name}</h1>
         <img src={detailedInfo.image.large} alt='coinImage' className='more-info-image'/>
         
         </div>
         <div className='more-info-container'>
+         
+          
           <div className='description-container'dangerouslySetInnerHTML={{ __html: detailedInfo.description.en === '' ?`There is currently no description for ${detailedInfo.name} at the moment` : detailedInfo.description.en}}>
           </div> 
+          <h3 style={{margin: '20px'}}>Description</h3>
         <div className='chart-container'>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
@@ -124,17 +134,18 @@ export const Dashboard = () => {
             bottom: 10,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          {/*<CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
           <YAxis label={{ value: 'Price', angle: -90, position: 'insideLeft', offset: -5}}
           domain={[0, graphLimit]}/>
-          <Tooltip />
+        <Tooltip />*/}
           <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
       </ResponsiveContainer>
       </div>
       <h3>Historical market data for the last year</h3>
       </div>
+
       </div>}
       
     </div>

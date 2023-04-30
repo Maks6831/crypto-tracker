@@ -37,6 +37,13 @@ export const Authprovider  = ({children}) => {
       return auth.signOut();
     }
 
+    const saveCoin = (id) => {
+      console.log(id);
+      //   db.collection('users').doc(currentUser._delegate.uid).update({
+      //     coins: firebase.firestore.FieldValue.arrayUnion(id)
+      //   });
+       }
+
 
     
 
@@ -62,7 +69,8 @@ export const Authprovider  = ({children}) => {
         detailedInfo,
         setDetailedInfo,
         graphLimit,
-        setGraphLimit
+        setGraphLimit,
+        saveCoin
     }
 
   return (

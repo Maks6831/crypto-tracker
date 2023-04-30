@@ -11,7 +11,7 @@ import { m } from 'framer-motion';
 
 export const Searchitem = (props) => {
   const [dropDown, setDropDown] = useState(false);
-  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, setGraphLimit } = useAuth();
+  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, setGraphLimit, graphLimit, saveCoin } = useAuth();
   
   
     
@@ -23,17 +23,13 @@ export const Searchitem = (props) => {
  
         
     }
-    const saveCoin = () => {
-   //   db.collection('users').doc(currentUser._delegate.uid).update({
-   //     coins: firebase.firestore.FieldValue.arrayUnion(props.id)
-   //   });
-    }
+  
 
     const moreInfo = async () => {
       await fetch('https://api.coingecko.com/api/v3/coins/' + props.id + '/market_chart?vs_currency=gbp&days=366').then(res => res.json()).then(data => {
-        const maxPrice = Math.max(...data.prices.map(point => point[1]).flat());
-        setGraphLimit(Math.ceil(maxPrice) * 1.2);
-        console.log(maxPrice);
+        let maxPrice = Math.max(...data.prices.map(point => point[1]).flat());
+        maxPrice = Math.ceil(maxPrice);
+        setGraphLimit(maxPrice);
         
 
        setMoreInfoData(data.prices.map(pdata => {
@@ -68,7 +64,7 @@ export const Searchitem = (props) => {
       description={coinInfo.description.en}
 
       />
-      <button onClick={saveCoin}>Save</button>
+      <button onClick={()=>{saveCoin(props.id)}}>Save</button>
       <button onClick={moreInfo}>More Info</button>
 
       </div>}  
