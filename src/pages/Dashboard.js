@@ -24,7 +24,7 @@ export const Dashboard = () => {
 
 
   useEffect(()=>{
-    fetch("https://api.coingecko.com/api/v3/search/trending").then(res => res.json()).then(data => setTrending(data.coins));
+    //fetch("https://api.coingecko.com/api/v3/search/trending").then(res => res.json()).then(data => setTrending(data.coins));
     //currentUser && db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
     //  setDisplayName(doc.data().firstname);
     //  setUserData(doc.data());
@@ -41,8 +41,7 @@ export const Dashboard = () => {
   const handleQuery = (e) =>{
     e.preventDefault()
     fetch('https://api.coingecko.com/api/v3/search?query=' + query).then(res => res.json()).then(data=> setData(data.coins))
-    data !== [] ? console.log(data) : console.log('empty');
-    setToggle(true)
+    data ? console.log(data) : console.log('empty');
   }
 
   const showMore = () => {
@@ -89,17 +88,16 @@ export const Dashboard = () => {
     </div>
     <div>
       <div className='search-container'>
-
-      
-      {data && data.slice(0, limit).map((item) => (
+      {data && <div>
+        {data.slice(0, limit).map((item) => (
         <Searchitem
         name={item.name}
         img={item.large}
         id={item.id}
         moreInfoRef={moreInfoRef}
          />
-      ))
-        }
+      ))}
+        </div>}
         {toggle ? <button onClick={showMore}>Show more</button> : <></>}
     </div>
     </div>
@@ -108,7 +106,7 @@ export const Dashboard = () => {
       
       {moreInfoData && <div>
         <div className='button div'>
-            <button onClick={saveCoin(detailedInfo.id)}>Save coin!</button>
+            <button onClick={()=> {saveCoin(coinInfo)}}>Save coin!</button>
           </div>
         <div className='more-info-title'>
         <h1>{detailedInfo.name}</h1>
@@ -134,11 +132,11 @@ export const Dashboard = () => {
             bottom: 10,
           }}
         >
-          {/*<CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="time" label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
           <YAxis label={{ value: 'Price', angle: -90, position: 'insideLeft', offset: -5}}
           domain={[0, graphLimit]}/>
-        <Tooltip />*/}
+        <Tooltip />
           <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
         </AreaChart>
       </ResponsiveContainer>

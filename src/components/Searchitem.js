@@ -11,7 +11,7 @@ import { m } from 'framer-motion';
 
 export const Searchitem = (props) => {
   const [dropDown, setDropDown] = useState(false);
-  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, setGraphLimit, graphLimit, saveCoin } = useAuth();
+  const { currentUser, setUserData, setMoreInfoData, setCoinInfo, coinInfo, setDetailedInfo, setGraphLimit, graphLimit, saveCoin, moreInfoData } = useAuth();
   
   
     
@@ -26,9 +26,9 @@ export const Searchitem = (props) => {
   
 
     const moreInfo = async () => {
-      await fetch('https://api.coingecko.com/api/v3/coins/' + props.id + '/market_chart?vs_currency=gbp&days=366').then(res => res.json()).then(data => {
+      await fetch('https://api.coingecko.com/api/v3/coins/' + props.id + '/market_chart?vs_currency=gbp&days=7').then(res => res.json()).then(data => {
         let maxPrice = Math.max(...data.prices.map(point => point[1]).flat());
-        maxPrice = Math.ceil(maxPrice);
+        maxPrice = Math.ceil(maxPrice) * 1.2;
         setGraphLimit(maxPrice);
         
 
@@ -41,6 +41,7 @@ export const Searchitem = (props) => {
       
        props.moreInfoRef.current.scrollIntoView({ behavior: 'smooth' });
        setDetailedInfo(coinInfo);
+       console.log(moreInfoData)
       
 
         })
@@ -64,7 +65,7 @@ export const Searchitem = (props) => {
       description={coinInfo.description.en}
 
       />
-      <button onClick={()=>{saveCoin(props.id)}}>Save</button>
+      <button onClick={()=>{saveCoin(coinInfo)}}>Save</button>
       <button onClick={moreInfo}>More Info</button>
 
       </div>}  
