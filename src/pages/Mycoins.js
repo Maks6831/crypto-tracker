@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../styles/Mycoins.css';
 import { db } from '../Firebase';
 import { useAuth } from '../contexts/Authcontext';
+import { Coinelement } from '../components/Coinelement';
 
 export const Mycoins = () => {
   const [myCoins, setMyCoins] = useState(['bitcoin', 'ethereum','litecoin', 'dogecoin', 'bitcoin-cash']);
@@ -32,6 +33,24 @@ export const Mycoins = () => {
             <th>price graph (7d)</th>
           </thead>
           <tbody>
+            { localData && 
+            localData.map((coin)=> (
+              <Coinelement
+              name={coin.name}
+              iconurl={coin.iconUrl}
+              symbol={coin.symbol}
+              id={coin.id}
+              hash={coin.hash}
+              currentPrice={coin.currentPrice}
+              price_btc={coin.price_btc}
+              marketCap={coin.marketCap}
+              volume={coin.volume}
+              priceChange={coin.priceChange}
+              chartData={coin.chartData}
+               />
+            ))
+
+            } 
           
 
           </tbody>
