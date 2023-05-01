@@ -21,21 +21,23 @@ export const Mycoins = () => {
   return (
     <div className='mycoins-container'>
       <h1>My Coins</h1>
-      <div> <table>
-          <thead>
-            <th>#</th>
-            <th>Name</th>
-            <th>Change(24h)</th>
-            <th>price</th>
-            <th>price inBTC</th>
-            <th>Market Cap</th>
-            <th> Volume 24h</th>
-            <th>price graph (7d)</th>
+      <div> 
+        <table className='table'>
+          <thead className='thead'>
+            <th className='hash'>#</th>
+            <th className='tname'>Name</th>
+            <th className='tchange'>Change(24h)</th>
+            <th className='tprice'>price</th>
+            <th className='tbtc'>price inBTC</th>
+            <th className='tcap'>Market Cap</th>
+            <th className='tvolume'> Volume 24h</th>
+            <th className='tgraph'>price graph (7d)</th>
           </thead>
-          <tbody>
+          <tbody className='tbody'>
             { localData && 
             localData.map((coin)=> (
               <Coinelement
+              key={coin.id}
               name={coin.name}
               iconurl={coin.iconUrl}
               symbol={coin.symbol}

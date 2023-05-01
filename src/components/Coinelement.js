@@ -5,7 +5,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
     return (
       <tr>
         <td>{hash}</td>
-        <td>{<img src={iconurl} alt='icon'/>}{name} • {symbol}</td>
+        <td className='td-name'>{<img className='table-icon' src={iconurl} alt='icon'/>}{name} • {symbol}</td>
         <td>{priceChange}</td>
         <td>{currentPrice}</td>
         <td>{price_btc}</td>
