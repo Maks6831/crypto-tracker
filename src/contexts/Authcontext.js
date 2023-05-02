@@ -39,7 +39,7 @@ export const Authprovider  = ({children}) => {
 
     const moneyFormatter = (num) => {
       if(1000000 <= num && num < 1000000000){
-        return '£' (num / 1000000).toFixed(1) + 'M';
+        return '£' + (num / 1000000).toFixed(1) + 'M';
       } else if(num >= 1000000000 ){
         return '£' + (num / 1000000000).toFixed(1) + 'B';
 
@@ -68,7 +68,7 @@ export const Authprovider  = ({children}) => {
         }
       }
       // priceChange is the 24% change 
-      const priceChange = (((priceToday - closestPrice) / priceToday) * 100).toFixed(2);
+      const priceChange = (((priceToday - closestPrice) / priceToday) * 100).toFixed(2) + '%';
 
       const marketFetch = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=gbp&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en')
         const marketData = await marketFetch.json();

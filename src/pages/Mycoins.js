@@ -19,7 +19,8 @@ export const Mycoins = () => {
   },[])
  
   return (
-    <div className='mycoins-container'>
+    <div className='mycoins-parent'>
+      <div className='mycoins-container'>
       <h1>My Coins</h1>
       <div> 
         <table className='table'>
@@ -59,6 +60,7 @@ export const Mycoins = () => {
         </table>
         {
         myCoins && myCoins.map((coin) => (<p>{coin}</p>))}</div>
+    </div>
     </div>
   )
 }
