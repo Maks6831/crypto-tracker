@@ -1,3 +1,4 @@
+import { hover } from '@testing-library/user-event/dist/hover';
 import React, { useEffect, useState } from 'react'
 import { AreaChart, Area,  ResponsiveContainer, YAxis, LineChart } from 'recharts';
 
@@ -6,6 +7,8 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
     const [upper, setUpper] = useState();
     const [lower, setLower] = useState();
     const [lineColor, setLineColor] = useState();
+    const [background, setBackground] = useState(false);
+
     
     useEffect(()=>{
         setGraphData(
@@ -21,14 +24,18 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
         setUpper(maxPrice * 1.2);
         let minPrice = Math.min(...chartData.map(point => point[1]).flat());
         setLower(minPrice * 0.8);
-        priceChange.includes('-') ? setLineColor('#FF0000') : setLineColor('#00FF00')
-    },[])
-
+        priceChange.includes('-') ? setLineColor('#ff4d4d') : setLineColor('#6ccf59');
+        priceChange.includes('-') ? setBackground(false) : setBackground(true);
+          },[])
     return (
-      <tr>
-        <td>{hash}</td>
+      <tr className='table-row'>
+        <td className='td-hash'>{hash}</td>
         <td className='td-name'>{<img className='table-icon' src={iconurl} alt='icon'/>}{name} • {symbol}</td>
-        <td className='td-change'>{priceChange}</td>
+        <td className='td-change' style={{color: lineColor}}>
+            <div className={!background ? 'background-down':'background-up'}>
+              {priceChange}
+            </div>
+          </td>
         <td className='td-price'>{currentPrice}</td>
         <td className='td-btc'>{price_btc}</td>
         <td className='td-cap'>{marketCap}</td>
@@ -60,4 +67,4 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
         </td>
       </tr>
     )
-  }
+            }

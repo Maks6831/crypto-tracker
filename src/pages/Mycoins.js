@@ -22,14 +22,14 @@ export const Mycoins = () => {
     <div className='mycoins-parent'>
       <div className='mycoins-container'>
       <h1>My Coins</h1>
-      <div> 
-        <table className='table'>
+      <div className='table-container'> 
+        <table className='table'  cellpadding="0" cellspacing="0">
           <thead className='thead'>
             <th className='hash'>#</th>
             <th className='tname'>Name</th>
             <th className='tchange'>Change(24h)</th>
             <th className='tprice'>price</th>
-            <th className='tbtc'>price inBTC</th>
+            <th className='tbtc'>price in BTC</th>
             <th className='tcap'>Market Cap</th>
             <th className='tvolume'> Volume 24h</th>
             <th className='tgraph'>price graph (7d)</th>
@@ -58,8 +58,7 @@ export const Mycoins = () => {
 
           </tbody>
         </table>
-        {
-        myCoins && myCoins.map((coin) => (<p>{coin}</p>))}</div>
+        </div>
     </div>
     </div>
   )

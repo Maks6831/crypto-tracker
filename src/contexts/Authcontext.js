@@ -68,7 +68,10 @@ export const Authprovider  = ({children}) => {
         }
       }
       // priceChange is the 24% change 
-      const priceChange = (((priceToday - closestPrice) / priceToday) * 100).toFixed(2) + '%';
+      let priceChange = (((priceToday - closestPrice) / priceToday) * 100).toFixed(2) + '%';
+      if(!priceChange.includes('-')){
+        priceChange = '+' + priceChange;
+      }
 
       const marketFetch = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=gbp&ids=bitcoin&order=market_cap_desc&per_page=100&page=1&sparkline=false&locale=en')
         const marketData = await marketFetch.json();

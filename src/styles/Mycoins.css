@@ -3,6 +3,9 @@
     width: 100%;
     background-color: black;
     color: white;
+    height: 100%;
+  
+    
 }
 
 .mycoins-container {
@@ -10,8 +13,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 0px; 
 
 }
+
 
 
   .table {
@@ -19,9 +24,30 @@
     width: 100%;
     max-width: 800px;
     margin-top: 20px;
-    border-radius: 0.65rem;
-    border: solid 1px #1a1a1a ;
+    
+    color:#7f7f7f;
   }
+
+  .table-container {
+    border: solid 1px #1a1a1a ;
+    border-radius: 0.65rem;
+  }
+
+  .th {
+    font-weight: normal;
+  }
+
+  .thead {
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+.red {
+  color: #FF0000;
+}
+
+.green {
+  color: #00FF00;
+}
   
  
   
@@ -35,25 +61,66 @@
   .td-graph {
     padding: 10px;
     text-align: right;
-    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0);
+    
+  }
+
+  .little-line {
+    background-color: rgba(0, 0, 0, 0);
   }
   
-  .td-hash {
+  .response {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  
+  .thash {
     width: 10%;
   }
-  
   .tname {
-    width: 30%;
     text-align: left;
+  }
+  
+  .td-name {
+    width: 300px;
+    text-align: left;
+    color: white;
+    height: 100%;
   }
   
   .tchange {
     width: 15%;
   }
   
-  .tprice {
+  .td-price {
     width: 15%;
+    color: white;
+    
   }
+
+  .background-up {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 30px;
+    width: 70%;
+    background-color: rgba(8, 209, 88, 0.1);
+    
+    text-align: center;
+  }
+
+.background-down {
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 30px;
+    width: 70%;
+    background-color: rgba(255, 68, 68, 0.1);
+    
+    text-align: center;
+}
+
   
   .tbtc {
     width: 15%;
@@ -87,11 +154,21 @@
     display: flex;
     align-items: center;
     text-align: left;
+    height: 100%!important;
   }
 
 
 .little-line {
     width: 150px;
     height: 50px;
+
+}
+
+tr {
+  background-color: black;
+}
+
+tr:hover {
+  background-color: #0d0d0d!important;
 
 }
