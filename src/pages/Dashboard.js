@@ -83,7 +83,7 @@ export const Dashboard = () => {
     <div className='search-form'>
       <form className='search'>
         <input type="search" name='query' placeholder='search' className='form-input' onChange={queryChange}/>
-          <button onClick={handleQuery}>search</button>
+          <button className='search-button' onClick={handleQuery}>search</button>
       </form>
     </div>
     <div>

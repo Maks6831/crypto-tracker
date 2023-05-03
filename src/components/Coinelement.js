@@ -30,7 +30,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
     return (
       <tr className='table-row'>
         <td className='td-hash'>{hash}</td>
-        <td className='td-name'>{<img className='table-icon' src={iconurl} alt='icon'/>}{name} • {symbol}</td>
+        <td className='td-name'>{<img className='table-icon' src={iconurl} alt='icon'/>}{name}<div className='symbol'>&nbsp; • {symbol}</div></td>
         <td className='td-change' style={{color: lineColor}}>
             <div className={!background ? 'background-down':'background-up'}>
               {priceChange}
@@ -42,7 +42,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
         <td className='td-volume'>{volume}</td>
         <td className='td-graph'>
             <div className='little-line'>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" className='response'>
         <AreaChart
             width={150}
             height={50}

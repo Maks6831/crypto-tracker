@@ -17,12 +17,20 @@
 
 }
 
+.table-container {
+  width: 90%;
+}
 
+th {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  text-align: right;
+  
+}
 
   .table {
     border-collapse: collapse;
     width: 100%;
-    max-width: 800px;
     margin-top: 20px;
     
     color:#7f7f7f;
@@ -39,16 +47,11 @@
 
   .thead {
     border-bottom: 1px solid #1a1a1a;
+    margin: 30px;
+
   }
 
-.red {
-  color: #FF0000;
-}
 
-.green {
-  color: #00FF00;
-}
-  
  
   
   .td-hash,
@@ -73,8 +76,8 @@
     background-color: rgba(0, 0, 0, 0);
   }
   
-  .thash {
-    width: 10%;
+  .hash {
+    text-align: center;
   }
   .tname {
     text-align: left;
@@ -89,7 +92,10 @@
   
   .tchange {
     width: 15%;
+    text-align: center;
   }
+  
+
   
   .td-price {
     width: 15%;
@@ -103,7 +109,7 @@
     justify-content: center;
     border-radius: 5px;
     height: 30px;
-    width: 70%;
+    width: 50%;
     background-color: rgba(8, 209, 88, 0.1);
     
     text-align: center;
@@ -115,10 +121,14 @@
     justify-content: center;
     border-radius: 5px;
     height: 30px;
-    width: 70%;
+    width: 50%;
     background-color: rgba(255, 68, 68, 0.1);
     
     text-align: center;
+}
+
+.symbol {
+  color: #7f7f7f;
 }
 
   

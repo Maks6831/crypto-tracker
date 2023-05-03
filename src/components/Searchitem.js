@@ -31,6 +31,7 @@ export const Searchitem = (props) => {
         maxPrice = Math.ceil(maxPrice) * 1.2;
         setGraphLimit(maxPrice);
         
+        
 
        setMoreInfoData(data.prices.map(pdata => {
         return {
@@ -56,17 +57,20 @@ export const Searchitem = (props) => {
   return (
     <div>
     <div className='search-div' onClick={introInfo}>
-        <div>{props.name}</div>
-        <img className='image' src={props.img} alt='thumb'/>
+        <div className='search-name'>{props.name}</div>
+        <img className='search-image' src={props.img} alt='thumb'/>
     </div>
-    <div>
-      {coinInfo?.name === props.name && coinInfo.description && <div><Coincard
+    <div className='hidden'>
+      {coinInfo?.name === props.name && coinInfo.description && <div className='extra-section'><Coincard
       name={coinInfo.name}
       description={coinInfo.description.en}
 
       />
-      <button onClick={()=>{saveCoin(coinInfo)}}>Save</button>
-      <button onClick={moreInfo}>More Info</button>
+      <div className='button-container'>
+      <button className='save-button' onClick={()=>{saveCoin(coinInfo)}}>Save</button>
+      <button className='more-info-button' onClick={moreInfo}>More Info</button>
+      </div>
+      
 
       </div>}  
     </div>

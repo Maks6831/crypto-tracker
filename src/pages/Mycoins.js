@@ -23,7 +23,7 @@ export const Mycoins = () => {
       <div className='mycoins-container'>
       <h1>My Coins</h1>
       <div className='table-container'> 
-        <table className='table'  cellpadding="0" cellspacing="0">
+        <table className='table'>
           <thead className='thead'>
             <th className='hash'>#</th>
             <th className='tname'>Name</th>
