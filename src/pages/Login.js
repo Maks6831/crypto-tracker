@@ -9,7 +9,6 @@ export const Login = () => {
     const { login, currentUser, logout } = useAuth();
     const [error, setError] = useState('')
     const history = useNavigate();
-    console.log(currentUser);
     const redirect = path => {
         history(path);
       }

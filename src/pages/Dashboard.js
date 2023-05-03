@@ -10,7 +10,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 export const Dashboard = () => {
   const [displayName, setDisplayName] = useState('');
-  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo, graphLimit, saveCoin } = useAuth();
+  const { logout, currentUser, setUserData, moreInfoData, coinInfo, detailedInfo, graphLimit, saveCoin, graphBegin } = useAuth();
   const [toggle, setToggle] = useState(false)
   const [trending, setTrending] = useState([]);
   const [query, setQuery] = useState('');
@@ -35,13 +35,11 @@ export const Dashboard = () => {
  
   const queryChange = (e)=>{
     setQuery(e.target.value)
-    console.log(query)
   }
 
   const handleQuery = (e) =>{
     e.preventDefault()
     fetch('https://api.coingecko.com/api/v3/search?query=' + query).then(res => res.json()).then(data=> setData(data.coins))
-    data ? console.log(data) : console.log('empty');
   }
 
   const showMore = () => {
@@ -132,12 +130,18 @@ export const Dashboard = () => {
             bottom: 10,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="time" label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
-          <YAxis label={{ value: 'Price', angle: -90, position: 'insideLeft', offset: -5}}
-          domain={[0, graphLimit]}/>
+          <defs>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="20%" stopColor="#FF0000" stopOpacity={0.3}/>
+              <stop offset="80%" stopColor="#FF0000" stopOpacity={0.1}/>
+            </linearGradient>
+          </defs>
+          <XAxis dataKey="time"  label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
+          <YAxis User
+tickFormatter={(value) => value.toFixed(0)} label={{ value: 'Price(GBP)', angle: -90, position: 'insideLeft', offset: -5, dy: 20}}
+          domain={[graphBegin, graphLimit]}/>
         <Tooltip />
-          <Area type="monotone" dataKey="price" stroke="#8884d8" fill="#8884d8" />
+          <Area type="monotone" dataKey="price" stroke="#FF0000" fillOpacity={1} fill="url(#colorPv)" strokeWidth={3} />
         </AreaChart>
       </ResponsiveContainer>
       </div>
