@@ -83,7 +83,7 @@ export const Mycoins = () => {
         <Tooltip />
           <Area type="monotone" data={yearly.GBP} dataKey="GBP" stroke="#FF0000" fillOpacity={1} fill="url(#colorPv)" strokeWidth={3} />
           {isCheckedBTC && 
-          <Area type="monotone" data={yearly.BTC} dataKey="BTC" stroke="#FF0000" fillOpacity={1} fill="url(#colorPv)" strokeWidth={3} />
+          <Area type="monotone" data={yearly.BTC} dataKey="BTC" stroke="#FF0000" fillOpacity={1} fill="url(#colorPv)" strokeWidth={3} yAxisId="right" />
           }
         </AreaChart>
         </ResponsiveContainer>
