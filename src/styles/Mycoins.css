@@ -182,3 +182,9 @@ tr:hover {
   background-color: #0d0d0d!important;
 
 }
+
+.graph-container {
+  height: 400px;
+  width: 800px;
+
+}

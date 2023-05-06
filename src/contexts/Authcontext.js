@@ -18,6 +18,10 @@ export const Authprovider  = ({children}) => {
     const [detailedInfo, setDetailedInfo] = useState();
     const [graphLimit, setGraphLimit] = useState(null);
     const [graphBegin, setGraphBegin] = useState();
+    const [mainData, setMainData] = useState();
+    const [yearly, setYearly] = useState();
+    const [localData, setLocalData] = useState();
+    const [limits, setLimits] = useState();
 
     const signup = (email, password, firstname, lastname) =>{
         auth.createUserWithEmailAndPassword(email, password).then(cred => {
@@ -139,7 +143,15 @@ export const Authprovider  = ({children}) => {
         setGraphLimit,
         saveCoin,
         graphBegin,
-        setGraphBegin
+        setGraphBegin,
+        mainData,
+        setMainData,
+        yearly,
+        setYearly,
+        localData,
+        setLocalData,
+        limits,
+        setLimits
     }
 
   return (

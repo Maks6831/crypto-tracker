@@ -1,14 +1,71 @@
 import { hover } from '@testing-library/user-event/dist/hover';
 import React, { useEffect, useState } from 'react'
 import { AreaChart, Area,  ResponsiveContainer, YAxis, LineChart } from 'recharts';
+import { useAuth } from '../contexts/Authcontext';
+import { m } from 'framer-motion';
 
 export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, price_btc, marketCap, volume, priceChange, chartData }) => {
     const [graphData, setGraphData] = useState();
+    const { setYearly, setMainData, localData, mainData, yearly, setLimits, limits } = useAuth();
     const [upper, setUpper] = useState();
     const [lower, setLower] = useState();
     const [lineColor, setLineColor] = useState();
     const [background, setBackground] = useState(false);
 
+    const getObjectById = (array, id) => {
+      return array.find(obj => obj.id === id);
+    };
+
+    const fetchAndProcessData = async (coinId, currency) => {
+      const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=366`;
+      const response = await fetch(url);
+      const data = await response.json();
+    
+      const options = { month: 'short', day: 'numeric' };
+      const prices = data.prices.map(([time, price]) => ({
+        time: new Date(time).toLocaleDateString('en-GB', options),
+        price,
+      }));
+      
+      const maxPrice = Math.max(...prices.map(({ price }) => price));
+      const minPrice = Math.min(...prices.map(({ price }) => price));
+      
+      const graphLimit = maxPrice * 1.2;
+      const graphBegin = minPrice * 0.8;
+    
+      return { coinId, currency, prices, graphLimit, graphBegin };
+    };
+    
+
+    const generateMain = async (coinId) => {
+      const [yearDataBTC, yearDataETH, yearDataGBP] = await Promise.all([
+        fetchAndProcessData(coinId, 'btc'),
+        fetchAndProcessData(coinId, 'eth'),
+        fetchAndProcessData(coinId, 'gbp'),
+      ]);
+      setLimits({
+        BTC : [yearDataBTC.graphBegin, yearDataBTC.graphLimit],
+        GBP: [yearDataGBP.graphBegin, yearDataGBP.graphLimit],
+        ETH: [yearDataETH.graphBegin, yearDataETH.graphLimit]
+      }
+      )
+
+      setYearly(yearDataBTC.prices.map(({ time, price: btcPrice }) => {
+        const ethPriceObj = yearDataETH.prices.find((p) => p.time === time);
+        const gbpPriceObj = yearDataGBP.prices.find((p) => p.time === time);
+        return {
+          time,
+          BTC: btcPrice,
+          ETH: ethPriceObj.price,
+          GBP: gbpPriceObj.price,
+        };
+      }));
+
+      console.log(limits)
+    
+      // ...
+    };
+    
     
     useEffect(()=>{
         setGraphData(
@@ -18,6 +75,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
                     price: data[1],
 
                 }
+        
             })
         )
         let maxPrice = Math.max(...chartData.map(point => point[1]).flat());
@@ -28,7 +86,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
         priceChange.includes('-') ? setBackground(false) : setBackground(true);
           },[])
     return (
-      <tr className='table-row'>
+      <tr className='table-row' onClick={()=>{generateMain(id) }}>
         <td className='td-hash'>{hash}</td>
         <td className='td-name'>{<img className='table-icon' src={iconurl} alt='icon'/>}{name}<div className='symbol'>&nbsp; • {symbol}</div></td>
         <td className='td-change' style={{color: lineColor}}>

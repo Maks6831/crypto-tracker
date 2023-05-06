@@ -136,9 +136,9 @@ export const Dashboard = () => {
               <stop offset="80%" stopColor="#FF0000" stopOpacity={0.1}/>
             </linearGradient>
           </defs>
-          <XAxis dataKey="time"  label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
+          <XAxis dataKey="time" axisLine={false} tickLine={false} label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
           <YAxis User
-tickFormatter={(value) => value.toFixed(0)} label={{ value: 'Price(GBP)', angle: -90, position: 'insideLeft', offset: -5, dy: 20}}
+tickFormatter={(value) => value.toFixed(0)} axisLine={false} tickLine={false} label={{ value: 'Price(GBP)', angle: -90, position: 'insideLeft', offset: -5, dy: 20}}
           domain={[graphBegin, graphLimit]}/>
         <Tooltip />
           <Area type="monotone" dataKey="price" stroke="#FF0000" fillOpacity={1} fill="url(#colorPv)" strokeWidth={3} />
