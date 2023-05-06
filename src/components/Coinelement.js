@@ -29,10 +29,29 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
       
       const maxPrice = Math.max(...prices.map(({ price }) => price));
       const minPrice = Math.min(...prices.map(({ price }) => price));
+      let graphLimit = maxPrice
+          let graphBegin = minPrice   
       
-      const graphLimit = maxPrice * 1.2;
-      const graphBegin = minPrice * 0.8;
-    
+      switch(currency){
+        default:
+          graphLimit = maxPrice * 1.2;
+          graphBegin = minPrice * 0.8;
+        break;
+        case 'eth':
+           graphLimit = maxPrice * 1.3;
+           graphBegin = minPrice * 0.9;
+        break;
+        case 'btc':
+          graphLimit = maxPrice * 1.1;
+          graphBegin = minPrice * 0.7
+          
+
+
+
+
+
+      }
+
       return { coinId, currency, prices, graphLimit, graphBegin };
     };
     
@@ -60,9 +79,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
           GBP: gbpPriceObj.price,
         };
       }));
-
-      console.log(limits)
-    
+    console.log(limits)
       // ...
     };
     
