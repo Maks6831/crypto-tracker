@@ -18,7 +18,7 @@ export const Mycoins = () => {
 
   const Yformatter = (value, currency) =>{
     let formattedValue = '';
-    if(value<= 0.0001){
+    if(value<= 0.001){
       formattedValue =  value.toExponential(1);
     } else if(value <= 0.1){
        formattedValue = value.toFixed(3)
@@ -35,7 +35,7 @@ export const Mycoins = () => {
             formattedValue = '฿' + formattedValue;
           break;
           case 'eth':
-            formattedValue = '\u2262' + formattedValue;
+            formattedValue = '\u2261' + formattedValue;
           break;
           default:
           formattedValue = '£' + formattedValue;
@@ -62,8 +62,23 @@ export const Mycoins = () => {
       setContainerWidth(!containerWidth);
       
     }
-
   
+    const CustomTooltip = ({ active, payload, label }) => {
+      console.log('this is payload ' + JSON.stringify(payload));
+      if (active && payload && payload.length) {
+        return (
+          <div className="custom-tooltip">
+            <p className="label">{`Date: ${label}`}</p>
+            <p className='tooltip-gbp' style={{color: payload[0].stroke}}>{`GBP: £${Yformatter(payload[0].payload.GBP)}`}</p>
+            {isCheckedBTC &&
+            <p className='tooltip-btc' style={{color: payload[1].stroke}}>{`BTC: ฿${payload[0].payload.BTC.toFixed(9)}`}</p>}
+            {isCheckedETH &&
+            <p className='tooltip-eth' style={{color: payload[2].stroke}}>{`ETH: \u2261 ${payload[0].payload.ETH.toFixed(9)}`}</p>}
+          </div>
+        );
+      }
+
+    }
 
   useEffect(()=>{
    // db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
@@ -129,7 +144,6 @@ export const Mycoins = () => {
           tickFormatter={(value) => Yformatter(value, 'gbp')} 
           axisLine={false} 
           tickLine={false} 
-          
           />
           {isCheckedBTC && 
           <YAxis yAxisId="right1"  
@@ -153,7 +167,7 @@ export const Mycoins = () => {
           domain={[limits.ETH.graphBegin, limits.ETH.graphLimit]}/>
           }
 
-        <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Area 
           type="monotone" 
           data={yearly.GBP} 

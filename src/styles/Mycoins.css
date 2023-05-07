@@ -189,3 +189,11 @@ tr:hover {
   width: 1000px;
 
 }
+
+.custom-tooltip {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+}
