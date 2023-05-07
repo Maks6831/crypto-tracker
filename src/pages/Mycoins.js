@@ -15,24 +15,39 @@ export const Mycoins = () => {
   const [gbpAnima, setGbpAnima ] = useState(true);
   const [ethAnima, setEthAnima ] = useState(true);
   const { currentUser, setLocalData, localData, mainData, yearly, limits } = useAuth();
-  const Yformatter = (value) =>{
+
+  const Yformatter = (value, currency) =>{
+    let formattedValue = '';
     if(value<= 0.0001){
-      return value.toFixed(10)
+      formattedValue =  value.toExponential(1);
     } else if(value <= 0.1){
-      return value.toFixed(3)
+       formattedValue = value.toFixed(3)
     } else if(value <=1) {
-      return value.toFixed(2)
+      formattedValue =  value.toFixed(2)
      } else if(value <= 10){
-      return value.toFixed(1)
+      formattedValue = value.toFixed(1)
       } else {
-        return value.toFixed(0)
+        formattedValue = value.toFixed(0)
       }
+
+      switch(currency){
+          case 'btc':
+            formattedValue = '฿' + formattedValue;
+          break;
+          case 'eth':
+            formattedValue = '\u2262' + formattedValue;
+          break;
+          default:
+          formattedValue = '£' + formattedValue;
+          break;
+      }
+      return formattedValue;
     }
 
     const onAnimationStart = useCallback((param) => {
       setTimeout(() => {
           param(false)
-      }, 1500)
+      }, 500)
   }, [])
 
 
@@ -97,31 +112,87 @@ export const Mycoins = () => {
           }}
         >
         <defs>
-            <linearGradient id="red-color" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="20%" stopColor="#FF0000" stopOpacity={0.2}/>
-              <stop offset="80%" stopColor="#FF0000" stopOpacity={0.05}/>
+            <linearGradient id="red-color" x1="" y1="0" x2="0" y2="1">
+              <stop offset="20%" stopColor="#FF0000" stopOpacity={0.1}/>
+              <stop offset="80%" stopColor="#FF0000" stopOpacity={0.1}/>
             </linearGradient>
             
         </defs>
-          <XAxis  dataKey="time" axisLine={false} tickLine={false} label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
-          <YAxis domain={[limits.GBP[0], limits.GBP[1]]} User tickFormatter={(value) => Yformatter(value)} axisLine={false} tickLine={false} label={{ value: 'Price(GBP)', angle: -90, position: 'insideLeft', offset: -5, dy: 20}}
+          <XAxis  
+          dataKey="time" 
+          axisLine={false} 
+          tickLine={false} 
+          label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
+          <YAxis 
+          domain={[limits.GBP[0], limits.GBP[1]]} 
+          User 
+          tickFormatter={(value) => Yformatter(value, 'gbp')} 
+          axisLine={false} 
+          tickLine={false} 
+          
           />
           {isCheckedBTC && 
-          <YAxis yAxisId="right1"  width={80} orientation="right" User tickFormatter={(value) => Yformatter(value)} axisLine={false} tickLine={false}
+          <YAxis yAxisId="right1"  
+          width={80} orientation="right" 
+          User 
+          tickFormatter={(value) => Yformatter(value, 'btc')} 
+          tick={{ fill: '#39FF14' }}
+          axisLine={false} 
+          tickLine={false}
           domain={[limits.BTC.graphBegin, limits.BTC.graphLimit]}/>
           }
           {isCheckedETH && 
-          <YAxis yAxisId="right2"  width={80} orientation="right" User tickFormatter={(value) => Yformatter(value)} axisLine={false} tickLine={false} 
+          <YAxis 
+          yAxisId="right2"  
+          width={80} 
+          orientation="right" 
+          User 
+          tickFormatter={(value) => Yformatter(value, 'eth')} 
+          tick={{ fill: '#1F51FF' }}
+          axisLine={false} tickLine={false} 
           domain={[limits.ETH.graphBegin, limits.ETH.graphLimit]}/>
           }
 
         <Tooltip />
-          <Area type="monotone" data={yearly.GBP} dataKey="GBP" isAnimationActive={gbpAnima} onAnimationStart={()=>{onAnimationStart(setGbpAnima)}} stroke="#FF0000" fillOpacity={1} fill="url(#red-color)" strokeWidth={2} />
+          <Area 
+          type="monotone" 
+          data={yearly.GBP} 
+          dataKey="GBP" 
+          isAnimationActive={gbpAnima} 
+          onAnimationStart={()=>{onAnimationStart(setGbpAnima)}} 
+          animationDuration={500}
+          stroke="#FF0000" 
+          fillOpacity={1} 
+          fill="url(#red-color)" 
+          strokeWidth={2} 
+          />
           {isCheckedBTC && 
-          <Area type="monotone" data={yearly.BTC} dataKey="BTC" stroke="#39FF14" fill='none'isAnimationActive={btcAnima} strokeWidth={2} onAnimationStart={()=>{onAnimationStart(setBtcAnima)}}  yAxisId="right1" />
+          <Area 
+          type="monotone" 
+          data={yearly.BTC} 
+          dataKey="BTC" 
+          stroke="#39FF14" 
+          fill='none'
+          isAnimationActive={btcAnima} 
+          animationDuration={500}
+          strokeWidth={2} 
+          onAnimationStart={()=>{onAnimationStart(setBtcAnima)}}  
+          yAxisId="right1" 
+          />
           }
           {isCheckedETH && 
-          <Area type="monotone" data={yearly.ETH} isAnimationActive={ethAnima}  onAnimationStart={()=>{onAnimationStart(setEthAnima)}} dataKey="ETH" stroke="#1F51FF" fillOpacity={0}  strokeWidth={2} yAxisId="right2" />
+          <Area 
+          type="monotone" 
+          data={yearly.ETH} 
+          isAnimationActive={ethAnima}
+          animationDuration={500}  
+          onAnimationStart={()=>{onAnimationStart(setEthAnima)}} 
+          dataKey="ETH" 
+          stroke="#1F51FF" 
+          fillOpacity={0}  
+          strokeWidth={2} 
+          yAxisId="right2" 
+          />
           }
         </AreaChart>
         </ResponsiveContainer>
