@@ -3,17 +3,22 @@ import '../styles/Mycoins.css';
 import { db } from '../Firebase';
 import { useAuth } from '../contexts/Authcontext';
 import { Coinelement } from '../components/Coinelement';
-import { ResponsiveContainer, Area, AreaChart, YAxis, XAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, Area, AreaChart, YAxis, XAxis, Tooltip} from 'recharts';
 import { SwitchLayoutGroupContext } from 'framer-motion';
+
 
 export const Mycoins = () => {
   //const [myCoins, setMyCoins] = useState(['bitcoin', 'ethereum','litecoin', 'dogecoin', 'bitcoin-cash']);
   const [ isCheckedBTC, setIsCheckedBTC ] = useState(false);
   const [ isCheckedETH, setIsCheckedETH ] = useState(false);
   const [containerWidth, setContainerWidth] = useState(false);
+  const [lineColor, setLineColor] = useState();
+  const [background, setBackground] = useState();
   const [btcAnima, setBtcAnima ] = useState(true);
   const [gbpAnima, setGbpAnima ] = useState(true);
   const [ethAnima, setEthAnima ] = useState(true);
+  const [colorEth, setColorEth] = useState();
+  const [btcChange, setBtcChange] = useState();
   const { currentUser, setLocalData, localData, mainData, yearly, limits } = useAuth();
 
   const Yformatter = (value, currency) =>{
@@ -64,19 +69,26 @@ export const Mycoins = () => {
     }
   
     const CustomTooltip = ({ active, payload, label }) => {
-      console.log('this is payload ' + JSON.stringify(payload));
       if (active && payload && payload.length) {
+        payload[2] ? setColorEth(payload[2]?.stroke) : setColorEth(payload[1]?.stroke)
         return (
           <div className="custom-tooltip">
             <p className="label">{`Date: ${label}`}</p>
-            <p className='tooltip-gbp' style={{color: payload[0].stroke}}>{`GBP: £${Yformatter(payload[0].payload.GBP)}`}</p>
+            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{`GBP: ${Yformatter(payload[0].payload.GBP, 'gbp')}`}</p>
             {isCheckedBTC &&
-            <p className='tooltip-btc' style={{color: payload[1].stroke}}>{`BTC: ฿${payload[0].payload.BTC.toFixed(9)}`}</p>}
+            <p className='tooltip-btc' style={{color: payload[1].stroke}}>{`BTC: ฿${payload[0].payload.BTC.toFixed(8)}`}</p>}
             {isCheckedETH &&
-            <p className='tooltip-eth' style={{color: payload[2].stroke}}>{`ETH: \u2261 ${payload[0].payload.ETH.toFixed(9)}`}</p>}
+            <p className='tooltip-eth' style={{color: colorEth}}>{`ETH: \u2261 ${payload[0].payload.ETH.toFixed(8)}`}</p>}
           </div>
         );
       }
+
+    }
+
+    const percentCalc = (current, previous) =>{
+      return (
+        (((current- previous) / current) * 100).toFixed(2) + '%'
+      )
 
     }
 
@@ -85,9 +97,12 @@ export const Mycoins = () => {
    //   setMyCoins(doc.data().coins)
    
    setLocalData(JSON.parse(localStorage.getItem('saved-data')))
+   yearly && setBtcChange(percentCalc(yearly[yearly.length-1].BTC, yearly[yearly.length-2].BTC))
+          
+   
    // })
 
-  },[])
+  },[yearly])
 
   useLayoutEffect(()=>{
     setBtcAnima(true);
@@ -95,24 +110,40 @@ export const Mycoins = () => {
     setEthAnima(true);
     setIsCheckedBTC(false);
     setIsCheckedETH(false);
+    mainData?.priceChange.includes('-') ? setLineColor('#ff4d4d') : setLineColor('#6ccf59');
+    mainData?.priceChange.includes('-') ? setBackground(false) : setBackground(true);
+    
+    
 
   },[yearly])
+
+  
  
   return (
     <div className='mycoins-parent'>
       <div className='mycoins-container'>
       <h1>My Coins</h1>
-      { yearly && <div className='main-section'>
+      { mainData && yearly && <div className='main-section'>
         <div className='main-coin-title'>
-          <div>Rank</div>
-          <div>name</div>
-          <div className='main-price'>
-          <div>priceGBP</div>
-          <div>price change</div>
+          <img className='title-icon' src={mainData.iconurl} alt='crypto icon'/>
+          <h1>{mainData.name}</h1>
+          <div className='symbol symbol-bigger'>&nbsp;• {mainData.symbol}</div>
           </div>
-        </div>
+          <div className='main-coin-title'>
+          <h1>{mainData.currentPrice}</h1>
+          <div  style={{color: lineColor, fontSize: '1.2rem', marginLeft: '5px'}} className={!background ? 'background-down':'background-up'}>
+              {mainData.priceChange}
+            </div>
+            </div>
+            <div className='main-coin-title'>
+              <h1>฿ {(yearly[yearly.length-1].ETH).toFixed(8)}</h1>
+              <div  style={{color: lineColor, fontSize: '1.2rem', marginLeft: '5px'}} className={!background ? 'background-down':'background-up'}>
+              {btcChange}
+            </div>
+  </div>
+          
+        
         <div className='main-graph-section'>
-          <h3>NAME Price Chart</h3>
           <div className='graph-container'>
           <ResponsiveContainer width="100%" height="100%">
         <AreaChart
@@ -137,7 +168,7 @@ export const Mycoins = () => {
           dataKey="time" 
           axisLine={false} 
           tickLine={false} 
-          label={{ value: 'Date', position: 'insideBottom', offset: -10 }}  />
+         />
           <YAxis 
           domain={[limits.GBP[0], limits.GBP[1]]} 
           User 
@@ -167,7 +198,7 @@ export const Mycoins = () => {
           domain={[limits.ETH.graphBegin, limits.ETH.graphLimit]}/>
           }
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip />}/>
           <Area 
           type="monotone" 
           data={yearly.GBP} 

@@ -137,3 +137,8 @@
 .search-button:hover {
   background-color: #005f6b;
 }
+
+.show-more-button { 
+  color: white;
+  background-color: blue;
+}

@@ -3,7 +3,8 @@
     width: 100%;
     background-color: black;
     color: white;
-    height: 100%;
+    min-height: 100vh;
+    padding-bottom: 10px;
   
     
 }
@@ -110,8 +111,9 @@ th {
     justify-content: center;
     border-radius: 5px;
     height: 30px;
-    width: 50%;
+    width: fit-content;
     background-color: rgba(8, 209, 88, 0.1);
+    padding: 10px;
     
     text-align: center;
   }
@@ -121,8 +123,9 @@ th {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    padding: 10px;
     height: 30px;
-    width: 50%;
+    width: fit-content;
     background-color: rgba(255, 68, 68, 0.1);
     
     text-align: center;
@@ -193,7 +196,21 @@ tr:hover {
 .custom-tooltip {
   background-color: rgba(0, 0, 0, 0.9);
   padding: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
   border-radius: 10px;
+}
+
+.main-coin-title {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.title-icon {
+  max-height: 32px;
+  margin-right: 10px;
+}
+
+.symbol-bigger {
+  font-size: 1.5em;
 }

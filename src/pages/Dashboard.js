@@ -34,12 +34,17 @@ export const Dashboard = () => {
   },[])
  
   const queryChange = (e)=>{
+    console.log(query)
     setQuery(e.target.value)
   }
 
-  const handleQuery = (e) =>{
-    e.preventDefault()
-    fetch('https://api.coingecko.com/api/v3/search?query=' + query).then(res => res.json()).then(data=> setData(data.coins))
+  const handleQuery = async (e) => {
+    e.preventDefault();
+
+     const searchFetch = await fetch('https://api.coingecko.com/api/v3/search?query=' + query)
+     const searchData = await searchFetch.json();
+     setData(searchData.coins)
+     searchData.coins.length > 5 ? setToggle(true) : setToggle(false);
   }
 
   const showMore = () => {
@@ -96,7 +101,10 @@ export const Dashboard = () => {
          />
       ))}
         </div>}
-        {toggle ? <button onClick={showMore}>Show more</button> : <></>}
+        <div className='hello-imm-looking-for-you'>
+        {toggle ? <button className='show-more-button' onClick={showMore}>Show more</button> : <></>}
+        </div>
+        
     </div>
     </div>
     <div ref={moreInfoRef} className='more-info'>

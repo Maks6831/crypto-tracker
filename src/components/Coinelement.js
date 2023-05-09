@@ -79,7 +79,9 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
           GBP: gbpPriceObj.price,
         };
       }));
-    console.log(limits)
+    setMainData(
+      { name, iconurl, symbol, id, hash, currentPrice, price_btc, marketCap, volume, priceChange, chartData }
+    )
       // ...
     };
     

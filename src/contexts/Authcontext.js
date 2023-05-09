@@ -71,6 +71,7 @@ export const Authprovider  = ({children}) => {
           closestPrice = price;
         }
       }
+      
       // priceChange is the 24% change 
       let priceChange = (((priceToday - closestPrice) / priceToday) * 100).toFixed(2) + '%';
       if(!priceChange.includes('-')){
