@@ -27,10 +27,10 @@ export const Mycoins = () => {
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
   const { currentUser, setLocalData, localData, mainData, yearly, limits } = useAuth();
 
-  const handlePngDownload = useCallback(async () => {
+  const handlePngDownload = useCallback(async (param) => {
     const png = await getAreaPng();
     if (png) {
-      FileSaver.saveAs(png, "area-chart.png");
+      param === 'PNG' ? FileSaver.saveAs(png, "area-chart.png") : FileSaver.saveAs(png,"area-chart.jpeg");
     }
   }, [getAreaPng]);
 

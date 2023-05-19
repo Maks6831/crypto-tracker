@@ -7,9 +7,7 @@ export const Dropdown = ({openDropdown, handlePngDownload}) => {
 
     const handleOptionSelect = (param) => { 
         openDropdown();
-        if(param === 'PNG'){
-            handlePngDownload()
-        }
+            handlePngDownload(param)
 
     }
 
