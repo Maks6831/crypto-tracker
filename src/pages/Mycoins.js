@@ -137,7 +137,7 @@ export const Mycoins = () => {
             </div>
             <div className='main-coin-title'>
               <h1>฿ {(yearly[yearly.length-1].ETH).toFixed(8)}</h1>
-              <div  style={{color: lineColor, fontSize: '1.2rem', marginLeft: '5px'}} className={!background ? 'background-down':'background-up'}>
+              <div  style={{color: btcChange?.includes('-') ? '#ff4d4d': '#6ccf59', fontSize: '1.2rem', marginLeft: '5px'}} className={btcChange?.includes('-') ? 'background-down':'background-up'}>
               {btcChange}
             </div>
   </div>
