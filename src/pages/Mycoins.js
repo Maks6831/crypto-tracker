@@ -2,9 +2,11 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import '../styles/Mycoins.css';
 import { db } from '../Firebase';
 import { useAuth } from '../contexts/Authcontext';
+import { FaEllipsisH } from 'react-icons/fa';
 import { Coinelement } from '../components/Coinelement';
 import { ResponsiveContainer, Area, AreaChart, YAxis, XAxis, Tooltip} from 'recharts';
 import { SwitchLayoutGroupContext } from 'framer-motion';
+import { Dropdown } from '../components/Dropdown';
 
 
 export const Mycoins = () => {
@@ -12,6 +14,7 @@ export const Mycoins = () => {
   const [ isCheckedBTC, setIsCheckedBTC ] = useState(false);
   const [ isCheckedETH, setIsCheckedETH ] = useState(false);
   const [containerWidth, setContainerWidth] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
   const [lineColor, setLineColor] = useState();
   const [background, setBackground] = useState();
   const [btcAnima, setBtcAnima ] = useState(true);
@@ -20,6 +23,12 @@ export const Mycoins = () => {
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
   const { currentUser, setLocalData, localData, mainData, yearly, limits } = useAuth();
+
+  const openDropdown = () => {
+    setDropDown(!dropDown);
+    console.log(dropDown);
+    
+  }
 
   const Yformatter = (value, currency) =>{
     let formattedValue = '';
@@ -126,7 +135,7 @@ export const Mycoins = () => {
       { mainData && yearly && <div className='main-section'>
         <div className='main-coin-title'>
           <img className='title-icon' src={mainData.iconurl} alt='crypto icon'/>
-          <h1>{mainData.name}</h1>
+          <h1>{mainData.name} Price</h1>
           <div className='symbol symbol-bigger'>&nbsp;• {mainData.symbol}</div>
           </div>
           <div className='main-coin-title'>
@@ -138,12 +147,28 @@ export const Mycoins = () => {
             <div className='main-coin-title'>
               <h1>฿ {(yearly[yearly.length-1].ETH).toFixed(8)}</h1>
               <div  style={{color: btcChange?.includes('-') ? '#ff4d4d': '#6ccf59', fontSize: '1.2rem', marginLeft: '5px'}} className={btcChange?.includes('-') ? 'background-down':'background-up'}>
-              {btcChange}
+              {btcChange?.includes('-')? btcChange : '+' + btcChange}
             </div>
   </div>
           
         
         <div className='main-graph-section'>
+          <div className='chart-title'>
+          <div>{mainData.name} Price Chart ({mainData.symbol})</div>
+          <div className='download-section' >
+            <div className=''></div>
+          <p className='elipsis' onClick={openDropdown}>{<FaEllipsisH/>}</p>
+          { dropDown && 
+          <Dropdown
+          openDropdown={openDropdown}
+           />
+           
+          } 
+          </div>
+          
+          
+          </div>
+          
           <div className='graph-container'>
           <ResponsiveContainer width="100%" height="100%">
         <AreaChart

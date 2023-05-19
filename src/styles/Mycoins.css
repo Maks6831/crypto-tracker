@@ -214,3 +214,27 @@ tr:hover {
 .symbol-bigger {
   font-size: 1.5em;
 }
+
+.chart-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.download-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 50px;
+  background-color: #1a1a1a;
+  border-radius: 7px;
+}
+
+.elipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100%;
+  min-height: 100%;
+  color: #666666;
+}
