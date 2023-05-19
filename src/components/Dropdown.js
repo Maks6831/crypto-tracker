@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import '../styles/Dropdown.css'
-
-export const Dropdown = ({openDropdown}) => {
+import '../styles/Dropdown.css';
 
 
-    const handleOptionSelect = () => { 
+export const Dropdown = ({openDropdown, handlePngDownload}) => {
+
+
+    const handleOptionSelect = (param) => { 
         openDropdown();
+        if(param === 'PNG'){
+            handlePngDownload()
+        }
 
     }
 

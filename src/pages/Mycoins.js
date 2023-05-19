@@ -7,6 +7,8 @@ import { Coinelement } from '../components/Coinelement';
 import { ResponsiveContainer, Area, AreaChart, YAxis, XAxis, Tooltip} from 'recharts';
 import { SwitchLayoutGroupContext } from 'framer-motion';
 import { Dropdown } from '../components/Dropdown';
+import { useCurrentPng } from 'recharts-to-png';
+import FileSaver from 'file-saver';
 
 
 export const Mycoins = () => {
@@ -22,7 +24,15 @@ export const Mycoins = () => {
   const [ethAnima, setEthAnima ] = useState(true);
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
+  const [getAreaPng, { ref: areaRef }] = useCurrentPng();
   const { currentUser, setLocalData, localData, mainData, yearly, limits } = useAuth();
+
+  const handlePngDownload = useCallback(async () => {
+    const png = await getAreaPng();
+    if (png) {
+      FileSaver.saveAs(png, "area-chart.png");
+    }
+  }, [getAreaPng]);
 
   const openDropdown = () => {
     setDropDown(!dropDown);
@@ -161,6 +171,7 @@ export const Mycoins = () => {
           { dropDown && 
           <Dropdown
           openDropdown={openDropdown}
+          handlePngDownload={handlePngDownload}
            />
            
           } 
@@ -175,6 +186,7 @@ export const Mycoins = () => {
           width={800}
           height={400}
           data={yearly}
+          ref={areaRef}
           margin={{
             top: 20,
             right: 50,
