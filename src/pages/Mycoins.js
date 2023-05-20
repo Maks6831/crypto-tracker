@@ -235,7 +235,7 @@ export const Mycoins = () => {
           domain={[limits.ETH.graphBegin, limits.ETH.graphLimit]}/>
           }
 
-          <Tooltip content={<CustomTooltip />}/>
+          <Tooltip content={<CustomTooltip />} cursor={false}/>
           <Area 
           type="monotone" 
           data={yearly.GBP} 
