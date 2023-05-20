@@ -9,6 +9,7 @@ import { SwitchLayoutGroupContext } from 'framer-motion';
 import { Dropdown } from '../components/Dropdown';
 import { useCurrentPng } from 'recharts-to-png';
 import FileSaver from 'file-saver';
+import { Timefilter } from '../components/Timefilter';
 
 
 export const Mycoins = () => {
@@ -279,6 +280,11 @@ export const Mycoins = () => {
         </AreaChart>
         </ResponsiveContainer>
           </div>
+          <div className='filter-section'>
+            <div className='interval-section'>
+              <Timefilter/>
+            </div>
+            <div className='currency-section'>
           <label>
       <input type="checkbox" checked={isCheckedBTC} onChange={()=>{handleClick('btc')}} />
       BTC
@@ -287,6 +293,8 @@ export const Mycoins = () => {
       <input type="checkbox" checked={isCheckedETH} onChange={()=>{handleClick('eth')}} />
       ETH
     </label>
+    </div>
+    </div>
 
 
         </div>
