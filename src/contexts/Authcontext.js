@@ -22,7 +22,7 @@ export const Authprovider  = ({children}) => {
     const [yearly, setYearly] = useState();
     const [localData, setLocalData] = useState();
     const [limits, setLimits] = useState();
-
+    const [uuid, setUuid] = useState();
     const signup = (email, password, firstname, lastname) =>{
         auth.createUserWithEmailAndPassword(email, password).then(cred => {
           return db.collection('users').doc(cred.user.uid).set({
@@ -152,7 +152,9 @@ export const Authprovider  = ({children}) => {
         localData,
         setLocalData,
         limits,
-        setLimits
+        setLimits,
+        uuid, 
+        setUuid
     }
 
   return (

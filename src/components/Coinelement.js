@@ -6,7 +6,7 @@ import { m } from 'framer-motion';
 
 export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, price_btc, marketCap, volume, priceChange, chartData }) => {
     const [graphData, setGraphData] = useState();
-    const { setYearly, setMainData, localData, mainData, yearly, setLimits, limits } = useAuth();
+    const { setYearly, setMainData, localData, mainData, yearly, setLimits, limits, setUuid, uuid } = useAuth();
     const [upper, setUpper] = useState();
     const [lower, setLower] = useState();
     const [lineColor, setLineColor] = useState();
@@ -20,6 +20,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
       const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=366`;
       const response = await fetch(url);
       const data = await response.json();
+      console.log(data);
     
       const options = { month: 'short', day: 'numeric' };
       const prices = data.prices.map(([time, price]) => ({
@@ -57,6 +58,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
     
 
     const generateMain = async (coinId) => {
+
       const [yearDataBTC, yearDataETH, yearDataGBP] = await Promise.all([
         fetchAndProcessData(coinId, 'btc'),
         fetchAndProcessData(coinId, 'eth'),
@@ -82,7 +84,17 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
     setMainData(
       { name, iconurl, symbol, id, hash, currentPrice, price_btc, marketCap, volume, priceChange, chartData }
     )
-      // ...
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-key': process.env.COINRANKING_APIKEY,
+        'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
+      }
+    }
+    const url = `https://api.coinranking.com/v2/search-suggestions?query=${symbol}`
+    const rankFetch = await fetch(url, options);
+    const rankResult = await rankFetch.json();
+    setUuid(rankResult.data.coins[0].uuid);
     };
     
     
