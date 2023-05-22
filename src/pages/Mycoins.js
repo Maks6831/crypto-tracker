@@ -26,7 +26,7 @@ export const Mycoins = () => {
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
-  const { currentUser, setLocalData, localData, mainData, yearly, limits } = useAuth();
+  const { currentUser, setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
 
   const handlePngDownload = useCallback(async (param) => {
     const png = await getAreaPng();
@@ -51,9 +51,9 @@ export const Mycoins = () => {
       formattedValue =  value.toFixed(2)
      } else if(value <= 10){
       formattedValue = value.toFixed(1)
-      } else {
-        formattedValue = value.toFixed(0)
-      }
+      } //else {
+      //  formattedValue = value.toFixed(0)
+      //}
 
       switch(currency){
           case 'btc':
@@ -94,7 +94,7 @@ export const Mycoins = () => {
         return (
           <div className="custom-tooltip">
             <p className="label">{`Date: ${label}`}</p>
-            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{`GBP: ${Yformatter(payload[0].payload.GBP, 'gbp')}`}</p>
+            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{`GBP: ${payload[0].payload.GBP}`}</p>
             {isCheckedBTC &&
             <p className='tooltip-btc' style={{color: payload[1].stroke}}>{`BTC: ฿${payload[0].payload.BTC.toFixed(8)}`}</p>}
             {isCheckedETH &&
@@ -156,7 +156,7 @@ export const Mycoins = () => {
             </div>
             </div>
             <div className='main-coin-title'>
-              <h1>฿ {(yearly[yearly.length-1].ETH).toFixed(8)}</h1>
+              <h1>฿ {(yearly[yearly.length-1]?.ETH).toFixed(8)}</h1>
               <div  style={{color: btcChange?.includes('-') ? '#ff4d4d': '#6ccf59', fontSize: '1.2rem', marginLeft: '5px'}} className={btcChange?.includes('-') ? 'background-down':'background-up'}>
               {btcChange?.includes('-')? btcChange : '+' + btcChange}
             </div>
@@ -186,7 +186,7 @@ export const Mycoins = () => {
         <AreaChart
           width={800}
           height={400}
-          data={yearly}
+          data={mainGraphData}
           ref={areaRef}
           margin={{
             top: 20,
@@ -208,7 +208,7 @@ export const Mycoins = () => {
           tickLine={false} 
          />
           <YAxis 
-          domain={[limits.GBP[0], limits.GBP[1]]} 
+          domain={[limits.GBP.graphBegin, limits.GBP.graphLimit]} 
           User 
           tickFormatter={(value) => Yformatter(value, 'gbp')} 
           axisLine={false} 
@@ -239,7 +239,7 @@ export const Mycoins = () => {
           <Tooltip content={<CustomTooltip />} cursor={false}/>
           <Area 
           type="monotone" 
-          data={yearly.GBP} 
+          data={mainGraphData.GBP} 
           dataKey="GBP" 
           isAnimationActive={gbpAnima} 
           onAnimationStart={()=>{onAnimationStart(setGbpAnima)}} 
@@ -252,7 +252,7 @@ export const Mycoins = () => {
           {isCheckedBTC && 
           <Area 
           type="monotone" 
-          data={yearly.BTC} 
+          data={mainGraphData.BTC} 
           dataKey="BTC" 
           stroke="#39FF14" 
           fill='none'
@@ -266,7 +266,7 @@ export const Mycoins = () => {
           {isCheckedETH && 
           <Area 
           type="monotone" 
-          data={yearly.ETH} 
+          data={mainGraphData.ETH} 
           isAnimationActive={ethAnima}
           animationDuration={500}  
           onAnimationStart={()=>{onAnimationStart(setEthAnima)}} 

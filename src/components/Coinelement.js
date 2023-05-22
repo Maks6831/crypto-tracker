@@ -6,7 +6,7 @@ import { m } from 'framer-motion';
 
 export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, price_btc, marketCap, volume, priceChange, chartData }) => {
     const [graphData, setGraphData] = useState();
-    const { setYearly, setMainData, localData, mainData, yearly, setLimits, limits, setUuid, uuid } = useAuth();
+    const { setYearly, setMainData, localData, mainData, yearly, setLimits, limits, setUuid, uuid, setMainGraphData } = useAuth();
     const [upper, setUpper] = useState();
     const [lower, setLower] = useState();
     const [lineColor, setLineColor] = useState();
@@ -15,18 +15,24 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
     const getObjectById = (array, id) => {
       return array.find(obj => obj.id === id);
     };
+    function checkTimeKeys(array1, array2) {
+      const timeKeys1 = new Set(array1.map(obj => obj.time));
+      const timeKeys2 = new Set(array2.map(obj => obj.time));
+      return JSON.stringify(Array.from(timeKeys1)) === JSON.stringify(Array.from(timeKeys2));
+    }
 
     const fetchAndProcessData = async (coinId, currency) => {
       const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=366`;
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
     
       const options = { month: 'short', day: 'numeric' };
       const prices = data.prices.map(([time, price]) => ({
         time: new Date(time).toLocaleDateString('en-GB', options),
         price,
       }));
+
+     
       
       const maxPrice = Math.max(...prices.map(({ price }) => price));
       const minPrice = Math.min(...prices.map(({ price }) => price));
@@ -64,6 +70,7 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
         fetchAndProcessData(coinId, 'eth'),
         fetchAndProcessData(coinId, 'gbp'),
       ]);
+      console.log(checkTimeKeys(yearDataBTC.prices, yearDataGBP.prices))
       setLimits({
         BTC : [yearDataBTC.graphBegin, yearDataBTC.graphLimit],
         GBP: [yearDataGBP.graphBegin, yearDataGBP.graphLimit],
@@ -81,6 +88,17 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
           GBP: gbpPriceObj.price,
         };
       }));
+      setMainGraphData(yearDataBTC.prices.map(({ time, price: btcPrice }) => {
+        const ethPriceObj = yearDataETH.prices.find((p) => p.time === time);
+        const gbpPriceObj = yearDataGBP.prices.find((p) => p.time === time);
+        return {
+          time,
+          BTC: btcPrice,
+          ETH: ethPriceObj.price,
+          GBP: gbpPriceObj.price,
+        };
+      }));
+
     setMainData(
       { name, iconurl, symbol, id, hash, currentPrice, price_btc, marketCap, volume, priceChange, chartData }
     )
