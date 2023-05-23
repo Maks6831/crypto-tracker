@@ -77,13 +77,13 @@ export const Timefilter =  () => {
 
 
 
-    const fetchAndProcessData = async (time, currency) => {
+    const fetchAndProcessData = async (time, currency, apiKey) => {
       
       const url = `https://coinranking1.p.rapidapi.com/coin/${uuid}/history?referenceCurrencyUuid=${currency}&timePeriod=${time}`;
       const fetchOptions = {
         method: 'GET',
         headers: {
-          'X-RapidAPI-Key': process.env.COINRANKING_APIKEY,
+          'X-RapidAPI-Key': apiKey,
           'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com'
         }
       };
@@ -125,24 +125,42 @@ export const Timefilter =  () => {
 
         return {currency, prices, graphLimit, graphBegin}
       
+      
         
             
 
     }
-    const generateMain =  (e) => {
-      setChecked(e.target.textContent);
-      const timeInterval = timeConverter(e.target.textContent)
-      mainFetch(timeInterval);
+
+    const apiCheck = async (time, currency) => {
+      try {
+        return await fetchAndProcessData(time, currency, process.env.REACT_APP_COINRANKING_APIKEY_ONE)
+      } catch (error){
+        console.log(error)
+        try {
+          return await  fetchAndProcessData(time, currency, process.env.REACT_APP_COINRANKING_APIKEY_TWO)
+        } catch (error){
+          console.log(error)
+          try {
+            return await fetchAndProcessData(time, currency, process.env.REACT_APP_COINRANKING_APIKEY_THREE)
+          } catch (error){
+            console.log("An error occurred during additional operations:", error.message);
+          }
+      }
+        
+      }
+
     }
+
+  
 
     const mainFetch = async (time) => {
       const gbp = 'Hokyui45Z38f';
         const btc = 'Qwsogvtv82FCd';
         const eth = 'razxDUgYGNAdQ';
         const [yearDataBTC, yearDataETH, yearDataGBP] = await Promise.all([
-          fetchAndProcessData(time, btc),
-          fetchAndProcessData(time, eth),
-          fetchAndProcessData(time, gbp),
+          apiCheck(time, btc),
+          apiCheck(time, eth),
+          apiCheck(time, gbp),
         ]);
 
         
@@ -169,6 +187,11 @@ export const Timefilter =  () => {
         console.log(mainGraphData)
         console.log(time);
 
+    }
+    const generateMain =  (e) => {
+      setChecked(e.target.textContent);
+      const timeInterval = timeConverter(e.target.textContent)
+      mainFetch(timeInterval);
     }
 
 
