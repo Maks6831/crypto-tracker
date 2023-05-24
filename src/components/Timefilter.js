@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/Timefilter.css'
 import { useAuth } from '../contexts/Authcontext';
 
-export const Timefilter =  () => {
+export const Timefilter =  ({changeInterval}) => {
     const [checked, setChecked] = useState('1Y');
     const { mainData, uuid, setLimits, setMainGraphData, mainGraphData } = useAuth();
 
@@ -158,9 +158,9 @@ export const Timefilter =  () => {
         const btc = 'Qwsogvtv82FCd';
         const eth = 'razxDUgYGNAdQ';
         const [yearDataBTC, yearDataETH, yearDataGBP] = await Promise.all([
-          apiCheck(time, btc),
-          apiCheck(time, eth),
-          apiCheck(time, gbp),
+          //apiCheck(time, btc),
+          //apiCheck(time, gbp),
+          //apiCheck(time, eth),
         ]);
 
         
@@ -192,6 +192,7 @@ export const Timefilter =  () => {
       setChecked(e.target.textContent);
       const timeInterval = timeConverter(e.target.textContent)
       mainFetch(timeInterval);
+      changeInterval(checked);
     }
 
 
