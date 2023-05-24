@@ -249,8 +249,14 @@ tr:hover {
   
 }
 
-.interval-item {
-  padding: 10px;
-  margin: 10px;
-  color: #7a7a7a;
+
+
+.graph-animation {
+  animation: graphAnimation 1s;
 }
+
+@keyframes graphAnimation {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+

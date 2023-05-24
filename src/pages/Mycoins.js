@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import '../styles/Mycoins.css';
-import { db } from '../Firebase';
 import { useAuth } from '../contexts/Authcontext';
 import { FaEllipsisH } from 'react-icons/fa';
 import { Coinelement } from '../components/Coinelement';
 import { ResponsiveContainer, Area, AreaChart, YAxis, XAxis, Tooltip} from 'recharts';
-import { SwitchLayoutGroupContext } from 'framer-motion';
 import { Dropdown } from '../components/Dropdown';
 import { useCurrentPng } from 'recharts-to-png';
 import FileSaver from 'file-saver';
@@ -27,7 +25,7 @@ export const Mycoins = () => {
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
-  const { currentUser, setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
+  const { setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
 
   const handlePngDownload = useCallback(async (param) => {
     const png = await getAreaPng();
@@ -69,7 +67,7 @@ export const Mycoins = () => {
           break;
       }
     
-      const formattedTime = options.hour ? new Date(tickItem).toLocaleTimeString('en-GB', options) : new Date(tickItem).toLocaleDateString('en-GB', options);;
+      const formattedTime = options.hour ? new Date(tickItem * 1000).toLocaleTimeString('en-GB', options) : new Date(tickItem * 1000).toLocaleDateString('en-GB', options);;
       return formattedTime;
   }
 
@@ -83,9 +81,9 @@ export const Mycoins = () => {
       formattedValue =  value.toFixed(2)
      } else if(value <= 10){
       formattedValue = value.toFixed(1)
-      } //else {
-      //  formattedValue = value.toFixed(0)
-      //}
+      } else {
+        formattedValue = value.toFixed(0)
+      }
 
       switch(currency){
           case 'btc':
@@ -98,13 +96,15 @@ export const Mycoins = () => {
           formattedValue = '£' + formattedValue;
           break;
       }
+
+      //console.log(formattedValue);
       return formattedValue;
     }
 
     const onAnimationStart = useCallback((param) => {
       setTimeout(() => {
           param(false)
-      }, 500)
+      }, 1000)
   }, [])
 
 
@@ -168,15 +168,14 @@ export const Mycoins = () => {
     
     
 
-  },[yearly])
+  },[yearly, mainData])
 
   useLayoutEffect(()=>{
     setBtcAnima(true);
     setGbpAnima(true);
     setEthAnima(true);
-      console.log(interval);
 
-  },[interval])
+  },[interval, mainGraphData])
 
 
   
@@ -185,7 +184,7 @@ export const Mycoins = () => {
     <div className='mycoins-parent'>
       <div className='mycoins-container'>
       <h1>My Coins</h1>
-      { mainData && yearly && mainGraphData && <div className='main-section'>
+      { mainData && yearly && mainGraphData && interval && <div className='main-section'>
         <div className='main-coin-title'>
           <img className='title-icon' src={mainData.iconurl} alt='crypto icon'/>
           <h1>{mainData.name} Price</h1>
@@ -236,6 +235,7 @@ export const Mycoins = () => {
             left: 50,
             bottom: 20,
           }}
+          className={gbpAnima ? 'graph-animation' : ''}
         >
         <defs>
             <linearGradient id="red-color" x1="" y1="0" x2="0" y2="1">

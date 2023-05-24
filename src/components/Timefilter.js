@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/Authcontext';
 
 export const Timefilter =  ({changeInterval}) => {
     const [checked, setChecked] = useState('1Y');
-    const { mainData, uuid, setLimits, setMainGraphData, mainGraphData, yearly } = useAuth();
+    const { uuid, setLimits, setMainGraphData, mainGraphData, yearly } = useAuth();
 
     useEffect(()=>{
       setChecked('1Y');
@@ -70,7 +70,7 @@ export const Timefilter =  ({changeInterval}) => {
       
         const response = await fetch(url, fetchOptions);
         const result = await response.json();
-        const historyData = result.data.history
+        const historyData = result.data.history;
         let prices = historyData.map(({price, timestamp}) => {
           return {
             time: timestamp,
@@ -97,7 +97,7 @@ export const Timefilter =  ({changeInterval}) => {
             graphLimit = maxPrice * 1.1;
             graphBegin = minPrice * 0.7
         }
-        console.log(prices)
+        
 
 
         return {currency, prices, graphLimit, graphBegin}
@@ -131,13 +131,13 @@ export const Timefilter =  ({changeInterval}) => {
   
 
     const mainFetch = async (time) => {
-      const gbp = 'Hokyui45Z38f';
+      const gbp = 'razxDUgYGNAdQ';
         const btc = 'Qwsogvtv82FCd';
-        const eth = 'razxDUgYGNAdQ';
+        const eth = 'Hokyui45Z38f';
         const [yearDataBTC, yearDataETH, yearDataGBP] = await Promise.all([
-          //apiCheck(time, btc),
-          //apiCheck(time, gbp),
-          //apiCheck(time, eth),
+          apiCheck(time, btc),
+          apiCheck(time, gbp),
+          apiCheck(time, eth),
         ]);
 
         
@@ -161,7 +161,6 @@ export const Timefilter =  ({changeInterval}) => {
             };
           })
         );
-        console.log(mainGraphData)
         console.log(time);
 
     }
