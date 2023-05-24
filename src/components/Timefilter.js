@@ -1,41 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Timefilter.css'
 import { useAuth } from '../contexts/Authcontext';
 
 export const Timefilter =  ({changeInterval}) => {
     const [checked, setChecked] = useState('1Y');
-    const { mainData, uuid, setLimits, setMainGraphData, mainGraphData } = useAuth();
+    const { mainData, uuid, setLimits, setMainGraphData, mainGraphData, yearly } = useAuth();
+
+    useEffect(()=>{
+      setChecked('1Y');
+      changeInterval('1y');
+
+    },[yearly])
 
 
-    const optionFinder = (timevalue) => {
-      let options;
-    
-      switch (timevalue) {
-        case '3h':
-          options = { hour: '2-digit', minute: '2-digit', hour12: false };
-          break;
-        case '24h':
-          options = { hour: '2-digit', minute: '2-digit' };
-          break;
-        case '7d':
-        case '30d':
-        case '3m':
-        case '1y':
-          options = { month: 'short', day: 'numeric' };
-          break;
-        case '3y':
-          options = { month: '2-digit', year: '2-digit' };
-          break;
-        case '5y':
-          options = { month: '2-digit', year: '2-digit' };
-          break;
-        default:
-          console.log(`Unknown time value: ${timevalue}`);
-          break;
-      }
-    
-      return options;
-    };
+
+
+
 
     const timeConverter = (time) => {
       let convertedTime;
@@ -91,10 +71,7 @@ export const Timefilter =  ({changeInterval}) => {
         const response = await fetch(url, fetchOptions);
         const result = await response.json();
         const historyData = result.data.history
-        const options = optionFinder(time);
-        
         let prices = historyData.map(({price, timestamp}) => {
-          const formattedTime = options.hour ? new Date(timestamp * 1000).toLocaleTimeString('en-GB', options) : new Date(timestamp * 1000).toLocaleDateString('en-GB', options);
           return {
             time: timestamp,
             price: parseFloat(price)
@@ -192,7 +169,7 @@ export const Timefilter =  ({changeInterval}) => {
       setChecked(e.target.textContent);
       const timeInterval = timeConverter(e.target.textContent)
       mainFetch(timeInterval);
-      changeInterval(checked);
+      changeInterval(timeInterval);
     }
 
 

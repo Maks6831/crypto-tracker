@@ -19,7 +19,7 @@ export const Mycoins = () => {
   const [containerWidth, setContainerWidth] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [lineColor, setLineColor] = useState();
-  const [interval, setInterval] = useState();
+  const [interval, setInterval] = useState('1Y');
   const [background, setBackground] = useState();
   const [btcAnima, setBtcAnima ] = useState(true);
   const [gbpAnima, setGbpAnima ] = useState(true);
@@ -42,8 +42,35 @@ export const Mycoins = () => {
     
   }
 
-  const Xformatter = (tickItem)=> {
-    return new Date(tickItem)
+  const Xformatter = (tickItem, interval)=> {
+      let options;
+    
+      switch (interval) {
+        case '3h':
+          options = { hour: '2-digit', minute: '2-digit', hour12: false };
+          break;
+        case '24h':
+          options = { hour: '2-digit', minute: '2-digit' };
+          break;
+        case '7d':
+        case '30d':
+        case '3m':
+        case '1y':
+          options = { month: 'short', day: 'numeric' };
+          break;
+        case '3y':
+          options = { month: '2-digit', year: '2-digit' };
+          break;
+        case '5y':
+          options = { month: '2-digit', year: '2-digit' };
+          break;
+        default:
+          console.log(`Unknown time value: ${tickItem}`);
+          break;
+      }
+    
+      const formattedTime = options.hour ? new Date(tickItem).toLocaleTimeString('en-GB', options) : new Date(tickItem).toLocaleDateString('en-GB', options);;
+      return formattedTime;
   }
 
   const Yformatter = (value, currency) =>{
@@ -137,11 +164,19 @@ export const Mycoins = () => {
     setIsCheckedETH(false);
     mainData?.priceChange.includes('-') ? setLineColor('#ff4d4d') : setLineColor('#6ccf59');
     mainData?.priceChange.includes('-') ? setBackground(false) : setBackground(true);
-    console.log(interval);
+    
     
     
 
-  },[yearly, interval])
+  },[yearly])
+
+  useLayoutEffect(()=>{
+    setBtcAnima(true);
+    setGbpAnima(true);
+    setEthAnima(true);
+      console.log(interval);
+
+  },[interval])
 
 
   
@@ -150,7 +185,7 @@ export const Mycoins = () => {
     <div className='mycoins-parent'>
       <div className='mycoins-container'>
       <h1>My Coins</h1>
-      { mainData && yearly && <div className='main-section'>
+      { mainData && yearly && mainGraphData && <div className='main-section'>
         <div className='main-coin-title'>
           <img className='title-icon' src={mainData.iconurl} alt='crypto icon'/>
           <h1>{mainData.name} Price</h1>
@@ -213,7 +248,7 @@ export const Mycoins = () => {
           dataKey="time" 
           axisLine={false} 
           tickLine={false} 
-          tickFormatter={Xformatter}
+          tickFormatter={(value)=> Xformatter(value, interval)}
          />
           <YAxis 
           domain={[limits.GBP.graphBegin, limits.GBP.graphLimit]} 
