@@ -124,11 +124,12 @@ export const Mycoins = () => {
   
     const CustomTooltip = ({ active, payload, label }) => {
       if (active && payload && payload.length) {
+        console.log(payload);
         payload[2] ? setColorEth(payload[2]?.stroke) : setColorEth(payload[1]?.stroke)
         return (
           <div className="custom-tooltip">
-            <p className="label">{`Date: ${label}`}</p>
-            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{`GBP: ${payload[0].payload.GBP}`}</p>
+            <p className="label">{`Date: ${Xformatter(label, interval)}`}</p>
+            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{`GBP: £${payload[0].payload.GBP.toFixed(2)}`}</p>
             {isCheckedBTC &&
             <p className='tooltip-btc' style={{color: payload[1].stroke}}>{`BTC: ฿${payload[0].payload.BTC.toFixed(8)}`}</p>}
             {isCheckedETH &&
@@ -296,7 +297,7 @@ export const Mycoins = () => {
           domain={[limits.ETH.graphBegin, limits.ETH.graphLimit]}/>
           }
 
-          <Tooltip content={<CustomTooltip />} cursor={false}/>
+          <Tooltip content={<CustomTooltip />} cursor={false} wrapperStyle={{ outline: "none" }}/>
           <Area 
           type="monotone" 
           data={mainGraphData.GBP} 
