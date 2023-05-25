@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import '../styles/Dropdown.css';
 
 
-export const Dropdown = ({openDropdown, handlePngDownload}) => {
+export const Dropdown = ({openDropdown, handlePngDownload, ref}) => {
 
 
-    const handleOptionSelect = (param, event) => { 
-      console.log('success 1!')
-      event.preventDefault();
-        //openDropdown();
-        console.log('success')
-            handlePngDownload(param)
+    const handleOptionSelect = async  (param) => { 
+        
+        //console.log('success')
+          await handlePngDownload(param)
+          openDropdown();
+            
 
     }
 
@@ -19,10 +19,10 @@ export const Dropdown = ({openDropdown, handlePngDownload}) => {
         <div className='dropdown-menu'>
 
         
-      <div className="dropdown-option dropdown-1" onClick={(event) => handleOptionSelect('PNG', event)}>
+      <div className="dropdown-option dropdown-1" onClick={() => handleOptionSelect('PNG')}>
         Download PNG
       </div>
-      <div className="dropdown-option" onClick={(event) => handleOptionSelect('JPEG', event)}>
+      <div className="dropdown-option" onClick={() => handleOptionSelect('JPEG')}>
         Download JPEG
       </div>
       </div>

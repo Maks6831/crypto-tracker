@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import '../styles/Mycoins.css';
 import { useAuth } from '../contexts/Authcontext';
 import {MdCheckBoxOutlineBlank, MdCheckBox} from 'react-icons/md'
@@ -25,14 +25,15 @@ export const Mycoins = () => {
   const [ethAnima, setEthAnima ] = useState(true);
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
+  let menuRef = useRef(null);
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
   const { setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
 
   const handlePngDownload = useCallback(async (param) => {
     const png = await getAreaPng();
     if (png) {
-      console.log('success!')
       param === 'PNG' ? FileSaver.saveAs(png, "area-chart.png") : FileSaver.saveAs(png,"area-chart.jpeg");
+      
     }
   }, [getAreaPng]);
 
@@ -149,12 +150,17 @@ export const Mycoins = () => {
    // db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
    //   setMyCoins(doc.data().coins)
 
-   const handleClick = () =>{
+   const handleClick = (e) =>{
+    //console.log(e.target);
+    //console.log(menuRef);
+  if(menuRef.current && dropDown && !menuRef.current.contains(e.target)){
     setDropDown(false)
+  }
+    
 
 
    }
-   document.addEventListener('mousedown', handleClick);
+   window.addEventListener('mousedown', handleClick);
    
    setLocalData(JSON.parse(localStorage.getItem('saved-data')))
    yearly && setBtcChange(percentCalc(yearly[yearly.length-1].BTC, yearly[yearly.length-2].BTC))
@@ -218,11 +224,13 @@ export const Mycoins = () => {
           <div className='download-section' >
             <div className=''></div>
           <p className='elipsis' onClick={openDropdown}>{<FaEllipsisH/>}</p>
-          { dropDown && 
+          { dropDown &&
+          <div ref={menuRef}>
           <Dropdown
           openDropdown={openDropdown}
           handlePngDownload={handlePngDownload}
            />
+           </div>
            
           } 
           </div>
