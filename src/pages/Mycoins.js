@@ -25,7 +25,7 @@ export const Mycoins = () => {
   const [ethAnima, setEthAnima ] = useState(true);
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
-  let menuRef = useRef(null);
+  let menuRef = useRef();
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
   const { setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
 
@@ -153,6 +153,7 @@ export const Mycoins = () => {
    const handleClick = (e) =>{
     //console.log(e.target);
     //console.log(menuRef);
+    console.log(e.target);
   if(menuRef.current && dropDown && !menuRef.current.contains(e.target)){
     setDropDown(false)
   }
