@@ -252,7 +252,7 @@ tr:hover {
 
 
 .graph-animation {
-  animation: graphAnimation 1s;
+  animation: graphAnimation 1.4s;
 }
 
 @keyframes graphAnimation {

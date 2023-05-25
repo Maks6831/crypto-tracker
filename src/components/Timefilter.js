@@ -161,7 +161,6 @@ export const Timefilter =  ({changeInterval}) => {
             };
           })
         );
-        console.log(time);
 
     }
     const generateMain =  (e) => {

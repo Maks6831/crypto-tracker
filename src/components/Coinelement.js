@@ -25,10 +25,8 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
       const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency}&days=366`;
       const response = await fetch(url);
       const data = await response.json();
-    
-      const options = { month: 'short', day: 'numeric' };
       const prices = data.prices.map(([time, price]) => ({
-        time: new Date(time).toLocaleDateString('en-GB', options),
+        time: time /1000,
         price,
       }));
 
