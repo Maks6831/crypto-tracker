@@ -5,8 +5,11 @@ import '../styles/Dropdown.css';
 export const Dropdown = ({openDropdown, handlePngDownload}) => {
 
 
-    const handleOptionSelect = (param) => { 
-        openDropdown();
+    const handleOptionSelect = (param, event) => { 
+      console.log('success 1!')
+      event.preventDefault();
+        //openDropdown();
+        console.log('success')
             handlePngDownload(param)
 
     }
@@ -16,10 +19,10 @@ export const Dropdown = ({openDropdown, handlePngDownload}) => {
         <div className='dropdown-menu'>
 
         
-      <div className="dropdown-option dropdown-1" onClick={() => handleOptionSelect('PNG')}>
+      <div className="dropdown-option dropdown-1" onClick={(event) => handleOptionSelect('PNG', event)}>
         Download PNG
       </div>
-      <div className="dropdown-option" onClick={() => handleOptionSelect('JPEG')}>
+      <div className="dropdown-option" onClick={(event) => handleOptionSelect('JPEG', event)}>
         Download JPEG
       </div>
       </div>

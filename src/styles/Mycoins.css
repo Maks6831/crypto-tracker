@@ -260,3 +260,33 @@ tr:hover {
   to { opacity: 1; }
 }
 
+input[type="checkbox"]{
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.currency-section {
+  display: flex;
+  color: #666666;
+}
+
+.label-container{
+  display: flex;
+  padding-left: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.checkbox-container {
+  display: flex;
+  flex-direction: column;
+  
+  
+}
+
+.checkbox-div {
+  margin-top: 5px;
+}
+

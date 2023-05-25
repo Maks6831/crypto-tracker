@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import '../styles/Mycoins.css';
 import { useAuth } from '../contexts/Authcontext';
+import {MdCheckBoxOutlineBlank, MdCheckBox} from 'react-icons/md'
 import { FaEllipsisH } from 'react-icons/fa';
 import { Coinelement } from '../components/Coinelement';
 import { ResponsiveContainer, Area, AreaChart, YAxis, XAxis, Tooltip} from 'recharts';
@@ -30,13 +31,13 @@ export const Mycoins = () => {
   const handlePngDownload = useCallback(async (param) => {
     const png = await getAreaPng();
     if (png) {
+      console.log('success!')
       param === 'PNG' ? FileSaver.saveAs(png, "area-chart.png") : FileSaver.saveAs(png,"area-chart.jpeg");
     }
   }, [getAreaPng]);
 
   const openDropdown = () => {
     setDropDown(!dropDown);
-    console.log(dropDown);
     
   }
 
@@ -147,6 +148,13 @@ export const Mycoins = () => {
   useEffect(()=>{
    // db.collection('users').doc(currentUser._delegate.uid).get().then(doc => {
    //   setMyCoins(doc.data().coins)
+
+   const handleClick = () =>{
+    setDropDown(false)
+
+
+   }
+   document.addEventListener('mousedown', handleClick);
    
    setLocalData(JSON.parse(localStorage.getItem('saved-data')))
    yearly && setBtcChange(percentCalc(yearly[yearly.length-1].BTC, yearly[yearly.length-2].BTC))
@@ -329,13 +337,14 @@ export const Mycoins = () => {
               changeInterval={interval => setInterval(interval)} />
             </div>
             <div className='currency-section'>
-          <label>
-      <input type="checkbox" checked={isCheckedBTC} onChange={()=>{handleClick('btc')}} />
-      BTC
+          <label className='label-container'>
+          
+      <input type="checkbox" className='checkbox-container' checked={isCheckedBTC} onChange={()=>{handleClick('btc')}} />
+      <div className='checkbox-div'>{!isCheckedBTC ? <MdCheckBoxOutlineBlank size={25} /> : <MdCheckBox size={25}/> }</div>BTC
     </label>
-    <label>
-      <input type="checkbox" checked={isCheckedETH} onChange={()=>{handleClick('eth')}} />
-      ETH
+    <label className='label-container'>
+      <input type="checkbox"  className='checkbox-container' checked={isCheckedETH} onChange={()=>{handleClick('eth')}} />
+      <div className='checkbox-div'>{!isCheckedETH ? <MdCheckBoxOutlineBlank size={25} /> : <MdCheckBox size={25}/> }</div> ETH
     </label>
     </div>
     </div>
