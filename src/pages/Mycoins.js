@@ -75,9 +75,9 @@ export const Mycoins = () => {
 
   const Yformatter = (value, currency) =>{
     let formattedValue = '';
-    if(value<= 0.001){
+    if(value<= 0.001  && (currency === 'btc' || currency === 'eth')){
       formattedValue =  value.toExponential(1);
-    } else if(value <= 0.1){
+    } else if(value <= 0.1 && (currency === 'btc' || currency === 'eth')){
        formattedValue = value.toFixed(3)
     } else if(value <=1) {
       formattedValue =  value.toFixed(2)
@@ -200,7 +200,7 @@ export const Mycoins = () => {
     <div className='mycoins-parent'>
       <div className='mycoins-container'>
       <h1>My Coins</h1>
-      { mainData && yearly && mainGraphData && interval && <div className='main-section'>
+      { mainData && yearly && <div className='main-section'>
         <div className='main-coin-title'>
           <img className='title-icon' src={mainData.iconurl} alt='crypto icon'/>
           <h1>{mainData.name} Price</h1>
@@ -270,6 +270,7 @@ export const Mycoins = () => {
          />
           <YAxis 
           domain={[limits.GBP.graphBegin, limits.GBP.graphLimit]} 
+          allowDecimals={false}
           User 
           tickFormatter={(value) => Yformatter(value, 'gbp')} 
           axisLine={false} 
