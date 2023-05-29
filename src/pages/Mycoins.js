@@ -124,16 +124,16 @@ export const Mycoins = () => {
   
     const CustomTooltip = ({ active, payload, label }) => {
       if (active && payload && payload.length) {
-        console.log(payload);
+        console.log(typeof payload[0].payload.GBP);
         payload[2] ? setColorEth(payload[2]?.stroke) : setColorEth(payload[1]?.stroke)
         return (
           <div className="custom-tooltip">
             <p className="label">{`Date: ${Xformatter(label, interval)}`}</p>
-            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{`GBP: £${payload[0].payload.GBP.toFixed(2)}`}</p>
+            <p className='tooltip-gbp' style={{color: payload[0]?.stroke}}>{isNaN(payload[0].payload.GBP)?'GBP: Not available' :`GBP: £${payload[0].payload.GBP.toFixed(2)}`}</p>
             {isCheckedBTC &&
-            <p className='tooltip-btc' style={{color: payload[1].stroke}}>{`BTC: ฿${payload[0].payload.BTC.toFixed(8)}`}</p>}
+            <p className='tooltip-btc' style={{color: payload[1].stroke}}>{isNaN(payload[0].payload.BTC) ? '':`BTC: ฿${payload[0].payload.BTC.toFixed(8)}`}</p>}
             {isCheckedETH &&
-            <p className='tooltip-eth' style={{color: colorEth}}>{`ETH: \u2261 ${payload[0].payload.ETH.toFixed(8)}`}</p>}
+            <p className='tooltip-eth' style={{color: colorEth}}>{isNaN(payload[0].payload.ETH)? "":`ETH: \u2261 ${payload[0].payload.ETH.toFixed(8)}`}</p>}
           </div>
         );
       }
@@ -154,7 +154,6 @@ export const Mycoins = () => {
    const handleClick = (e) =>{
     //console.log(e.target);
     //console.log(menuRef);
-    console.log(e.target);
   if(menuRef.current && dropDown && !menuRef.current.contains(e.target)){
     setDropDown(false)
   }
