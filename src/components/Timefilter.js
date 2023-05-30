@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/Authcontext';
 
 export const Timefilter =  ({changeInterval}) => {
     const [checked, setChecked] = useState('1Y');
-    const { uuid, setLimits, setMainGraphData, mainGraphData, yearly } = useAuth();
+    const { uuid, setLimits, setMainGraphData, mainGraphData, yearly,timeConverter } = useAuth();
 
     useEffect(()=>{
       setChecked('1Y');
@@ -17,41 +17,7 @@ export const Timefilter =  ({changeInterval}) => {
 
 
 
-    const timeConverter = (time) => {
-      let convertedTime;
-    
-      switch (time) {
-        case '3H':
-          convertedTime = '3h';
-          break;
-        case '24H':
-          convertedTime = '24h';
-          break;
-        case '1W':
-          convertedTime = '7d';
-          break;
-        case '1M':
-          convertedTime = '30d';
-          break;
-        case '3M':
-          convertedTime = '3m';
-          break;
-        case '1Y':
-          convertedTime = '1y';
-          break;
-        case '3Y':
-          convertedTime = '3y';
-          break;
-        case '5Y':
-          convertedTime = '5y';
-          break;
-        default:
-          console.log(`Unknown time value: ${time}`);
-          break;
-      }
-    
-      return convertedTime;
-    };
+
 
 
 

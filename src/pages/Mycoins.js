@@ -9,6 +9,7 @@ import { Dropdown } from '../components/Dropdown';
 import { useCurrentPng } from 'recharts-to-png';
 import FileSaver from 'file-saver';
 import { Timefilter } from '../components/Timefilter';
+import { Percentstats } from '../components/Percentstats';
 
 
 export const Mycoins = () => {
@@ -25,6 +26,7 @@ export const Mycoins = () => {
   const [ethAnima, setEthAnima ] = useState(true);
   const [colorEth, setColorEth] = useState();
   const [btcChange, setBtcChange] = useState();
+  const timeInterval = ['3H', '24H', '1W', '1M', '3M', '1Y'];
   let menuRef = useRef();
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
   const { setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
@@ -357,6 +359,13 @@ export const Mycoins = () => {
       <div className='checkbox-div'>{!isCheckedETH ? <MdCheckBoxOutlineBlank size={25} /> : <MdCheckBox size={25}/> }</div> ETH
     </label>
     </div>
+    </div>
+    <div className='percent-borderbox'>
+      {timeInterval.map((time)=>(
+        <Percentstats 
+        time={time}
+        />
+      ))}
     </div>
 
 

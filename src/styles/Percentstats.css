@@ -1,0 +1,16 @@
+.percent-borderbox {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    min-height: auto;
+}
+
+.percent-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 20px;
+}

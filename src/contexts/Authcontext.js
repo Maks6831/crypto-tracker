@@ -25,6 +25,42 @@ export const Authprovider  = ({children}) => {
     const [uuid, setUuid] = useState();
     const [mainGraphData, setMainGraphData] = useState();
 
+    const timeConverter = (time) => {
+      let convertedTime;
+    
+      switch (time) {
+        case '3H':
+          convertedTime = '3h';
+          break;
+        case '24H':
+          convertedTime = '24h';
+          break;
+        case '1W':
+          convertedTime = '7d';
+          break;
+        case '1M':
+          convertedTime = '30d';
+          break;
+        case '3M':
+          convertedTime = '3m';
+          break;
+        case '1Y':
+          convertedTime = '1y';
+          break;
+        case '3Y':
+          convertedTime = '3y';
+          break;
+        case '5Y':
+          convertedTime = '5y';
+          break;
+        default:
+          console.log(`Unknown time value: ${time}`);
+          break;
+      }
+    
+      return convertedTime;
+    };
+
     const signup = (email, password, firstname, lastname) =>{
         auth.createUserWithEmailAndPassword(email, password).then(cred => {
           return db.collection('users').doc(cred.user.uid).set({
@@ -158,7 +194,8 @@ export const Authprovider  = ({children}) => {
         uuid, 
         setUuid,
         mainGraphData,
-        setMainGraphData
+        setMainGraphData,
+        timeConverter
     }
 
   return (
