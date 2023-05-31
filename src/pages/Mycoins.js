@@ -126,7 +126,6 @@ export const Mycoins = () => {
   
     const CustomTooltip = ({ active, payload, label }) => {
       if (active && payload && payload.length) {
-        console.log(typeof payload[0].payload.GBP);
         payload[2] ? setColorEth(payload[2]?.stroke) : setColorEth(payload[1]?.stroke)
         return (
           <div className="custom-tooltip">
