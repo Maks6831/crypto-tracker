@@ -78,22 +78,26 @@ export const Coinelement = ({ name, iconurl, symbol, id, hash, currentPrice, pri
 
       setYearly(yearDataBTC.prices.map(({ time, price: btcPrice }) => {
         const ethPriceObj = yearDataETH.prices.find((p) => p.time === time);
+        const ethPrice = ethPriceObj ? ethPriceObj.price : null; // Add null check to handle missing time entries
         const gbpPriceObj = yearDataGBP.prices.find((p) => p.time === time);
+        const gbpPrice = gbpPriceObj ? gbpPriceObj.price : null; // Add null check to handle missing time entries
         return {
           time,
           BTC: btcPrice,
-          ETH: ethPriceObj.price,
-          GBP: gbpPriceObj.price,
+          ETH: ethPrice,
+          GBP: gbpPrice,
         };
       }));
       setMainGraphData(yearDataBTC.prices.map(({ time, price: btcPrice }) => {
         const ethPriceObj = yearDataETH.prices.find((p) => p.time === time);
+        const ethPrice = ethPriceObj ? ethPriceObj.price : null; // Add null check to handle missing time entries
         const gbpPriceObj = yearDataGBP.prices.find((p) => p.time === time);
+        const gbpPrice = gbpPriceObj ? gbpPriceObj.price : null; // Add null check to handle missing time entries
         return {
           time,
           BTC: btcPrice,
-          ETH: ethPriceObj.price,
-          GBP: gbpPriceObj.price,
+          ETH: ethPrice,
+          GBP: gbpPrice,
         };
       }));
 

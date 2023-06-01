@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import '../styles/Percentstats.css';
 import { useAuth } from '../contexts/Authcontext';
 
 export const Percentstats = ({time}) => {
 
     const { timeConverter, uuid } = useAuth();
-    const [percentValue, setPercentValue] = useState();
+    const [percentValue, setPercentValue] = useState('nothing');
 
     const findPercent = async (newTime, apiKey) => {
         const url = `https://coinranking1.p.rapidapi.com/coin/${uuid}/history?referenceCurrencyUuid=razxDUgYGNAdQ&timePeriod=${newTime}`;
@@ -18,16 +18,16 @@ export const Percentstats = ({time}) => {
         };
         const response = await fetch(url, fetchOptions);
         const result = await response.json();
-        console.log(result.data.change);
-        let percentage = result.data.change + '%'
+          let percentage = result.data.change + '%'
        if(!percentage.includes('-')){
         percentage = '+' + percentage;
+        return percentage;
        }
 
-       console.log(percentage);
+       return percentage;
 
-        return percentage;
-    }
+       } 
+
 
 
 const apiCheck = async (timevalue) => {
@@ -42,7 +42,7 @@ const apiCheck = async (timevalue) => {
         try {
           return await findPercent(timevalue, process.env.REACT_APP_COINRANKING_APIKEY_SIX)
         } catch (error){
-          console.log("An error occurred during additional operations:", error.message);
+          console.log("An error occurred during additional operations 1 1 1 :", error.message);
         }
     }
       
@@ -53,13 +53,14 @@ const apiCheck = async (timevalue) => {
  
   const mainFetch = async (times) => {
     const timeValue = timeConverter(times);
-    console.log(timeValue);
-    const data = await apiCheck(timeValue) 
+    const data = await apiCheck(timeValue)
+    console.log(data) 
+
     setPercentValue(data);
 
   }
 
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     mainFetch(time)
 
   }, [uuid])

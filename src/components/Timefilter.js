@@ -86,7 +86,7 @@ export const Timefilter =  ({changeInterval}) => {
           try {
             return await fetchAndProcessData(time, currency, process.env.REACT_APP_COINRANKING_APIKEY_THREE)
           } catch (error){
-            console.log("An error occurred during additional operations:", error.message);
+            console.log("An error occurred during additional operations 2 2 2 :", error.message);
           }
       }
         

@@ -29,7 +29,7 @@ export const Mycoins = () => {
   const timeInterval = ['3H', '24H', '1W', '1M', '3M', '1Y'];
   let menuRef = useRef();
   const [getAreaPng, { ref: areaRef }] = useCurrentPng();
-  const { setLocalData, localData, mainData, yearly, limits, mainGraphData } = useAuth();
+  const { setLocalData, localData, mainData, yearly, limits, mainGraphData, uuid } = useAuth();
 
   const handlePngDownload = useCallback(async (param) => {
     const png = await getAreaPng();
@@ -200,7 +200,7 @@ export const Mycoins = () => {
     <div className='mycoins-parent'>
       <div className='mycoins-container'>
       <h1>My Coins</h1>
-      { mainData && yearly && <div className='main-section'>
+      { mainData && yearly && uuid && <div className='main-section'>
         <div className='main-coin-title'>
           <img className='title-icon' src={mainData.iconurl} alt='crypto icon'/>
           <h1>{mainData.name} Price</h1>
@@ -213,7 +213,7 @@ export const Mycoins = () => {
             </div>
             </div>
             <div className='main-coin-title'>
-              <h1>฿ {(yearly[yearly.length-1]?.ETH).toFixed(8)}</h1>
+              <h1>฿ {yearly[yearly.length-1].ETH ? (yearly[yearly.length-1]?.ETH).toFixed(8): (yearly[yearly.length-2]?.ETH).toFixed(8)} </h1>
               <div  style={{color: btcChange?.includes('-') ? '#ff4d4d': '#6ccf59', fontSize: '1.2rem', marginLeft: '5px'}} className={btcChange?.includes('-') ? 'background-down':'background-up'}>
               {btcChange?.includes('-')? btcChange : '+' + btcChange}
             </div>
@@ -241,9 +241,8 @@ export const Mycoins = () => {
           </div>
           
           <div className='graph-container'>
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={400}>
         <AreaChart
-          width={800}
           height={400}
           data={mainGraphData}
           ref={areaRef}
@@ -365,6 +364,7 @@ export const Mycoins = () => {
         time={time}
         />
       ))}
+     
     </div>
 
 

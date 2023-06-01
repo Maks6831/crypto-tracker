@@ -188,9 +188,15 @@ tr:hover {
 }
 
 .graph-container {
-  height: 400px;
-  width: 1000px;
+  width: 100% !important;
 
+}
+.main-section {
+  width: 100%;
+}
+
+.main-graph-section {
+  width: 100%;
 }
 
 .custom-tooltip {
